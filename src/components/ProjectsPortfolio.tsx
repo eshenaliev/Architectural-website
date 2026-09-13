@@ -6,13 +6,10 @@ import {
 import { PROJECTS_DATA } from '../data/projectsData';
 import { 
   MapPin, 
-  Activity, 
   ArrowUpRight,
+  ShieldCheck,
   CheckCircle2,
-  Atom,
-  Cpu,
-  Layers,
-  Zap
+  Compass
 } from 'lucide-react';
 
 interface ProjectsPortfolioProps {
@@ -25,10 +22,9 @@ export const ProjectsPortfolio: React.FC<ProjectsPortfolioProps> = ({
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
 
   const categories: { id: ProjectCategory; label: string }[] = [
-    { id: 'all', label: 'Все гиперструктуры' },
-    { id: 'public', label: 'Кибер-Аркологии & R&D Хабы' },
-    { id: 'residential', label: 'Вертикальные Модульные Города' },
-    { id: 'commercial', label: 'Нео-Небоскребы & Скай-Сити' },
+    { id: 'all', label: 'Все объекты' },
+    { id: 'residential', label: 'Загородные усадьбы и виллы' },
+    { id: 'public', label: 'Неоклассические ансамбли' },
   ];
 
   const filteredProjects = activeCategory === 'all' 
@@ -38,53 +34,49 @@ export const ProjectsPortfolio: React.FC<ProjectsPortfolioProps> = ({
   const getStatusBadge = (status: Project['status']) => {
     switch (status) {
       case 'Реализован':
-        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+        return 'bg-[#c5a880]/15 text-[#e5cfb1] border-[#c5a880]/40';
       case 'Строится':
-        return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
+        return 'bg-[#9a7b56]/15 text-[#d8be9d] border-[#9a7b56]/40';
       case 'Проектирование':
-        return 'bg-blue-500/20 text-blue-300 border-blue-500/40';
+        return 'bg-[#6b6255]/20 text-[#c5bcaf] border-[#6b6255]/40';
       default:
-        return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+        return 'bg-neutral-800 text-neutral-300 border-neutral-700';
     }
   };
 
   return (
-    <section id="portfolio" className="py-24 sm:py-32 bg-[#030407] relative overflow-hidden border-t border-cyan-500/20">
-      {/* Background glow effects */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/[0.03] rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-0 w-[600px] h-[600px] bg-emerald-500/[0.03] rounded-full blur-3xl pointer-events-none" />
-
+    <section id="portfolio" className="py-24 sm:py-32 bg-[#121315] relative overflow-hidden border-t border-[#c5a880]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-3">
-              <Atom className="w-4 h-4 text-cyan-400 animate-spin" />
-              <span>КАТАЛОГ МЕГАСТРУКТУР 2150</span>
+            <div className="inline-flex items-center gap-2 text-xs font-serif uppercase tracking-[0.25em] text-[#c5a880] mb-3">
+              <Compass className="w-3.5 h-3.5 text-[#c5a880]" />
+              <span>ПОРТФОЛИО АРХИТЕКТУРНОГО БЮРО</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-white tracking-tight uppercase leading-[1.08]">
-              Проекты Будущего <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-200 to-emerald-400 font-bold">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-normal text-[#f4efe6] tracking-tight leading-[1.1]">
+              Избранные объекты <br />
+              <span className="italic text-[#c5a880]">
                 «ГРАНД Плюс»
               </span>
             </h2>
           </div>
-          <p className="text-neutral-300 text-sm sm:text-base max-w-md font-light leading-relaxed font-sans">
-            Синтез графеновых пространственных экзоскелетов, активной магнитной сейсмозащиты 9.5 MSK и замкнутых биосферных сред для Центральной Азии.
+          <p className="text-[#a89f91] text-sm sm:text-base max-w-md font-light leading-relaxed font-sans">
+            Синтез классических ордеров, пропорций золотого сечения, натурального камня Сары-Таш и высшей категории сейсмостойкости до 9 баллов.
           </p>
         </div>
 
         {/* Category Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-12 no-scrollbar">
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-12 no-scrollbar font-serif">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2.5 rounded-xl text-xs font-mono tracking-wider uppercase transition-all whitespace-nowrap border cursor-pointer ${
+              className={`px-4 py-2.5 text-xs tracking-widest uppercase transition-all whitespace-nowrap border cursor-pointer ${
                 activeCategory === cat.id
-                  ? 'bg-cyan-500 text-black border-cyan-400 font-bold shadow-[0_0_20px_rgba(0,240,255,0.4)]'
-                  : 'hud-panel text-neutral-400 hover:text-white hover:border-cyan-500/40'
+                  ? 'bg-[#c5a880] text-[#121315] border-[#c5a880] font-medium shadow-sm'
+                  : 'border-[#c5a880]/25 text-[#a89f91] hover:text-[#f4efe6] hover:border-[#c5a880]/50 bg-[#16171a]'
               }`}
             >
               {cat.label}
@@ -103,39 +95,39 @@ export const ProjectsPortfolio: React.FC<ProjectsPortfolioProps> = ({
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
-              className="group hud-panel rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 flex flex-col cursor-pointer hover:shadow-[0_20px_50px_rgba(0,240,255,0.15)] relative"
+              className="group classic-frame overflow-hidden transition-all duration-400 flex flex-col cursor-pointer hover:border-[#c5a880]/60 relative"
             >
-              <div className="hud-corner-tl" />
-              <div className="hud-corner-br" />
+              <div className="classic-tick-tl" />
+              <div className="classic-tick-br" />
 
               {/* Image Container */}
-              <div className="relative aspect-[16/11] overflow-hidden bg-black">
+              <div className="relative aspect-[16/11] overflow-hidden bg-[#16171a]">
                 <img
                   src={project.coverImage}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080b12] via-transparent to-transparent opacity-90 group-hover:opacity-60 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#121315] via-transparent to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
 
-                {/* Index Code Pill */}
+                {/* Index Code */}
                 <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 text-[10px] font-mono tracking-widest rounded-lg bg-black/80 border border-cyan-500/30 text-cyan-300 backdrop-blur-md">
-                    SYS-0{idx + 1} // HUD
+                  <span className="px-2.5 py-1 text-[10px] font-serif tracking-widest bg-[#121315]/85 border border-[#c5a880]/30 text-[#c5a880] backdrop-blur-md">
+                    № 0{idx + 1}
                   </span>
                 </div>
 
                 {/* Status Badge */}
                 <div className="absolute top-4 right-4">
-                  <span className={`px-3 py-1 text-[10px] font-mono tracking-wider rounded-lg border backdrop-blur-md uppercase ${getStatusBadge(project.status)}`}>
+                  <span className={`px-2.5 py-1 text-[10px] font-serif tracking-wider border backdrop-blur-md uppercase ${getStatusBadge(project.status)}`}>
                     {project.status}
                   </span>
                 </div>
 
                 {/* Hover Inspect Indicator */}
                 <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  <span className="w-10 h-10 rounded-xl bg-cyan-400 text-black flex items-center justify-center shadow-2xl font-bold">
-                    <ArrowUpRight className="w-5 h-5" />
+                  <span className="w-9 h-9 bg-[#c5a880] text-[#121315] flex items-center justify-center font-bold shadow-md">
+                    <ArrowUpRight className="w-4 h-4" />
                   </span>
                 </div>
               </div>
@@ -143,40 +135,40 @@ export const ProjectsPortfolio: React.FC<ProjectsPortfolioProps> = ({
               {/* Card Body */}
               <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-5">
                 <div className="space-y-2.5">
-                  <div className="flex items-center gap-2 text-cyan-400/80 text-xs font-mono">
-                    <MapPin className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                  <div className="flex items-center gap-2 text-[#c5a880] text-xs font-serif">
+                    <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
                     <span className="truncate">{project.location}</span>
-                    <span className="text-neutral-600">•</span>
-                    <span className="text-neutral-400">{project.year}</span>
+                    <span className="text-[#6b6357]">•</span>
+                    <span className="text-[#9e968a]">{project.year}</span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-display font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug">
+                  <h3 className="text-lg sm:text-xl font-serif font-medium text-[#f4efe6] group-hover:text-[#c5a880] transition-colors leading-snug">
                     {project.title}
                   </h3>
 
-                  <p className="text-neutral-400 text-xs sm:text-sm line-clamp-2 leading-relaxed font-light font-sans">
+                  <p className="text-[#a89f91] text-xs sm:text-sm line-clamp-2 leading-relaxed font-light font-sans">
                     {project.shortDesc}
                   </p>
                 </div>
 
                 {/* Project Specs Strip */}
-                <div className="pt-4 border-t border-cyan-500/15 grid grid-cols-2 gap-3 text-xs">
+                <div className="pt-4 border-t border-[#c5a880]/15 grid grid-cols-2 gap-3 text-xs font-serif">
                   <div>
-                    <span className="text-[10px] uppercase font-mono text-neutral-400 block tracking-wider">Масштаб</span>
-                    <span className="font-semibold text-cyan-300 font-mono text-xs sm:text-sm">{project.area}</span>
+                    <span className="text-[10px] uppercase text-[#8c8477] block tracking-wider">Масштаб</span>
+                    <span className="text-[#f4efe6] text-xs sm:text-sm font-medium">{project.area}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase font-mono text-neutral-400 block tracking-wider">Сейсмо-Щит</span>
-                    <span className="font-semibold text-emerald-400 font-mono text-xs sm:text-sm flex items-center gap-1">
-                      <Zap className="w-3.5 h-3.5 text-emerald-400" />
-                      {project.seismicRating.split(' ')[0]} {project.seismicRating.split(' ')[1] || 'MSK'}
+                    <span className="text-[10px] uppercase text-[#8c8477] block tracking-wider">Сейсмостойкость</span>
+                    <span className="text-[#c5a880] text-xs sm:text-sm font-medium flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      9.0 баллов
                     </span>
                   </div>
                 </div>
 
                 {/* Action Link */}
-                <div className="pt-2 flex items-center justify-between text-xs font-mono uppercase tracking-wider text-cyan-400 group-hover:text-cyan-300 border-t border-cyan-500/10">
-                  <span>Инспектировать 5D BIM & Голограмму</span>
+                <div className="pt-2 flex items-center justify-between text-xs font-serif uppercase tracking-wider text-[#c5a880] group-hover:text-[#d8c09d] border-t border-[#c5a880]/10">
+                  <span>Ознакомиться с проектом</span>
                   <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </div>
               </div>
@@ -185,23 +177,23 @@ export const ProjectsPortfolio: React.FC<ProjectsPortfolioProps> = ({
         </div>
 
         {/* Bureau Guarantee Note */}
-        <div className="mt-16 p-6 sm:p-8 rounded-2xl sm:rounded-3xl hud-panel flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="hud-corner-tl" />
-          <div className="hud-corner-br" />
+        <div className="mt-16 p-6 sm:p-8 classic-frame flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="classic-tick-tl" />
+          <div className="classic-tick-br" />
 
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center flex-shrink-0">
-              <CheckCircle2 className="w-6 h-6 text-cyan-400" />
+            <div className="w-12 h-12 bg-[#c5a880]/10 border border-[#c5a880]/30 flex items-center justify-center flex-shrink-0">
+              <CheckCircle2 className="w-6 h-6 text-[#c5a880]" />
             </div>
-            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed max-w-2xl font-sans">
-              Каждая кибер-аркология и мегаструктура разработана бюро <strong className="text-white font-medium">«ГРАНД Плюс»</strong> с нулевым допуском ошибок, сквозной проверкой в ANSYS и подтверждением сейсмической надежности до 9.5 MSK в Главгосэкспертизе Кыргызской Республики.
+            <p className="text-xs sm:text-sm text-[#d5cfc5] leading-relaxed max-w-2xl font-sans font-light">
+              Каждый проект бюро <strong className="text-[#f4efe6] font-normal">«ГРАНД Плюс»</strong> разрабатывается с полным комплектом рабочей документации (АР, КР, ИОС), детальной спецификацией натурального камня и расчетом сейсмостойкости 9 баллов в Государственной экспертизе Госстроя Кыргызской Республики.
             </p>
           </div>
           <a
             href="#contacts"
-            className="whitespace-nowrap px-6 py-3 rounded-xl bg-cyan-400 text-black text-xs font-mono font-bold uppercase tracking-wider hover:bg-cyan-300 transition-all flex-shrink-0 shadow-[0_0_20px_rgba(0,240,255,0.3)]"
+            className="whitespace-nowrap px-6 py-3.5 bg-[#c5a880] text-[#121315] text-xs font-serif font-medium uppercase tracking-[0.15em] hover:bg-[#d8c09d] transition-all flex-shrink-0"
           >
-            Запросить 5D BIM Спецификацию
+            Заказать индивидуальный проект
           </a>
         </div>
       </div>

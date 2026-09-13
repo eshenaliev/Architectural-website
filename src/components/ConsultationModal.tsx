@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, CheckCircle, ShieldCheck, Phone, MessageSquare, Atom } from 'lucide-react';
+import { X, Send, CheckCircle2, ShieldCheck, MessageSquare, Compass } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
 
 interface ConsultationModalProps {
@@ -17,7 +17,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [topic, setTopic] = useState(prefilledTopic || 'Консультация по мегаструктуре');
+  const [topic, setTopic] = useState(prefilledTopic || 'Консультация по классическому проекту');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -26,84 +26,84 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
   };
 
   const whatsappLink = `https://wa.me/996700908822?text=${encodeURIComponent(
-    `Здравствуйте! Я хочу обсудить проект в ОсОО «ГРАНД Плюс». Тема: ${topic}. Телефон: ${phone || 'укажу в чате'}`
+    `Здравствуйте! Я хочу обсудить проект в ОсОО «ГРАНД Плюс». Тема: ${topic}. Заказчик: ${name || 'укажу в чате'}, Телефон: ${phone || 'укажу в чате'}`
   )}`;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
       <div 
-        className="w-full max-w-lg hud-panel rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(0,240,255,0.2)] relative text-neutral-200"
+        className="w-full max-w-lg bg-[#121315] border border-[#c5a880]/40 p-6 sm:p-8 shadow-2xl relative text-[#d5cfc5] font-serif"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="hud-corner-tl" />
-        <div className="hud-corner-br" />
+        <div className="classic-tick-tl" />
+        <div className="classic-tick-br" />
 
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl bg-black/60 border border-cyan-500/30 text-neutral-400 hover:text-cyan-400 hover:border-cyan-400 transition-colors cursor-pointer"
+          className="absolute top-5 right-5 p-1.5 border border-[#c5a880]/30 text-[#a89f91] hover:text-[#f4efe6] hover:border-[#c5a880] transition-colors cursor-pointer"
           aria-label="Закрыть"
         >
           <X className="w-5 h-5" />
         </button>
 
         {submitted ? (
-          <div className="text-center py-8 space-y-4 font-mono">
-            <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto border border-cyan-500/40 shadow-[0_0_25px_rgba(0,240,255,0.3)]">
-              <CheckCircle className="w-7 h-7" />
+          <div className="text-center py-8 space-y-4">
+            <div className="w-14 h-14 bg-[#c5a880]/15 text-[#c5a880] flex items-center justify-center mx-auto border border-[#c5a880]/40">
+              <CheckCircle2 className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-display font-bold text-white uppercase">Запрос Передан в Бюро!</h3>
-            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans font-light">
-              Главный архитектор ОсОО «ГРАНД Плюс» проанализирует запрос и свяжется с вами в течение рабочего времени.
+            <h3 className="text-xl text-[#f4efe6] font-normal uppercase">Заявка Принята в Бюро</h3>
+            <p className="text-xs sm:text-sm text-[#a89f91] leading-relaxed font-sans font-light">
+              Главный архитектор ОсОО «ГРАНД Плюс» свяжется с вами для согласования даты и времени консультации.
             </p>
-            <div className="pt-2 flex flex-col gap-2">
+            <div className="pt-2 flex flex-col gap-2 font-serif">
               <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,240,255,0.3)]"
+                className="w-full py-3 bg-[#c5a880] hover:bg-[#d8c09d] text-[#121315] font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
               >
                 <MessageSquare className="w-4 h-4" />
-                <span>Подтвердить в WhatsApp</span>
+                <span>Написать сразу в WhatsApp</span>
               </a>
               <button
                 onClick={onClose}
-                className="w-full py-2.5 rounded-xl bg-neutral-900 border border-cyan-500/20 text-neutral-300 text-xs hover:text-white"
+                className="w-full py-2.5 bg-[#18191c] border border-[#c5a880]/20 text-[#a89f91] text-xs hover:text-[#f4efe6]"
               >
                 Закрыть окно
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-5 font-mono">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <span className="text-[10px] uppercase tracking-wider text-cyan-400 block mb-1">
-                ОсОО «ГРАНД Плюс» // ТЕРМИНАЛ ГАП
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#c5a880] block mb-1">
+                ОсОО «ГРАНД Плюс» • АРХИТЕКТУРНОЕ БЮРО
               </span>
-              <h3 className="text-xl sm:text-2xl font-display font-bold text-white uppercase">
-                Консультация Архитектора Проекта
+              <h3 className="text-xl sm:text-2xl text-[#f4efe6] font-normal">
+                Консультация Главного Архитектора
               </h3>
-              <p className="text-xs text-neutral-400 mt-1 font-sans font-light">
-                Ответим на вопросы по квантово-сейсмической защите 9.5 MSK, СНиП КР, согласованию с Главэкспертизой и параметрам участка.
+              <p className="text-xs text-[#a89f91] mt-1 font-sans font-light">
+                Обсудим планировку усадьбы, ордерные пропорции, сейсмостойкость 9 баллов и подбор натурального камня Сары-Таш.
               </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3 font-serif">
               <div>
-                <label className="text-xs uppercase text-cyan-400 block mb-1">
-                  Имя инициатора / Корпорация:
+                <label className="text-xs uppercase text-[#c5a880] block mb-1">
+                  Ваше имя:
                 </label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="ФИО или девелоперская компания"
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/70 border border-cyan-500/30 text-white text-sm focus:outline-none focus:border-cyan-400 font-sans"
+                  placeholder="ФИО заказчика"
+                  className="w-full px-4 py-2.5 bg-[#16171a] border border-[#c5a880]/30 text-[#f4efe6] text-sm focus:outline-none focus:border-[#c5a880] font-sans"
                 />
               </div>
 
               <div>
-                <label className="text-xs uppercase text-cyan-400 block mb-1">
+                <label className="text-xs uppercase text-[#c5a880] block mb-1">
                   Телефон / WhatsApp:
                 </label>
                 <input
@@ -112,34 +112,34 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+996 (___) __-__-__"
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/70 border border-cyan-500/30 text-white text-sm focus:outline-none focus:border-cyan-400 font-mono"
+                  className="w-full px-4 py-2.5 bg-[#16171a] border border-[#c5a880]/30 text-[#f4efe6] text-sm focus:outline-none focus:border-[#c5a880] font-sans"
                 />
               </div>
 
               <div>
-                <label className="text-xs uppercase text-cyan-400 block mb-1">
-                  Тематика обсуждения:
+                <label className="text-xs uppercase text-[#c5a880] block mb-1">
+                  Тема консультации:
                 </label>
                 <input
                   type="text"
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/70 border border-cyan-500/30 text-white text-sm focus:outline-none focus:border-cyan-400 font-sans"
+                  className="w-full px-4 py-2.5 bg-[#16171a] border border-[#c5a880]/30 text-[#f4efe6] text-sm focus:outline-none focus:border-[#c5a880] font-sans"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(0,240,255,0.3)] flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 bg-[#c5a880] hover:bg-[#d8c09d] text-[#121315] font-medium text-xs uppercase tracking-[0.15em] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
-              <span>Связаться с ГАП бюро</span>
+              <span>Записаться на консультацию</span>
               <Send className="w-4 h-4" />
             </button>
 
-            <div className="flex items-center justify-center gap-2 text-[11px] text-neutral-400 text-center font-sans">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-              <span>Лицензия I категории (Госстрой Кыргызской Республики).</span>
+            <div className="flex items-center justify-center gap-2 text-[11px] text-[#8c8477] text-center font-sans font-light">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#c5a880] flex-shrink-0" />
+              <span>Лицензия I категории Госстроя Кыргызской Республики.</span>
             </div>
           </form>
         )}

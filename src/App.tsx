@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProjectsPortfolio } from './components/ProjectsPortfolio';
-import { FuturisticArchitectureManifesto } from './components/FuturisticArchitectureManifesto';
+import { ClassicalArchitecturePhilosophy } from './components/ClassicalArchitecturePhilosophy';
 import { ServicesSection } from './components/ServicesSection';
 import { EstimatorCalculator } from './components/EstimatorCalculator';
 import { EngineeringSection } from './components/EngineeringSection';
@@ -46,7 +46,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07080a] text-[#e4e7ec] font-sans antialiased selection:bg-white/20 selection:text-white">
+    <div className="min-h-screen bg-[#121315] text-[#d5cfc5] font-sans antialiased selection:bg-[#c5a880]/30 selection:text-[#f3ede4]">
       {/* Fixed Header */}
       <Header
         onOpenConsultation={() => handleOpenConsultation()}
@@ -66,8 +66,8 @@ export default function App() {
           onSelectProject={(proj) => setSelectedProject(proj)}
         />
 
-        {/* Cyber-Arcology 2150 & Hyperstructure Manifesto */}
-        <FuturisticArchitectureManifesto />
+        {/* Classical Architecture & Vitruvian Philosophy */}
+        <ClassicalArchitecturePhilosophy />
 
         {/* Bureau Services & Deliverables */}
         <ServicesSection

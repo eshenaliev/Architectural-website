@@ -4,9 +4,8 @@ import {
   X, 
   ArrowUpRight,
   Calculator,
-  Radio,
-  Atom,
-  ShieldCheck
+  ShieldCheck,
+  Phone
 } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
 
@@ -31,126 +30,126 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const navLinks = [
-    { label: 'Мегаструктуры', href: '#portfolio' },
-    { label: 'Манифест 2150', href: '#manifesto' },
-    { label: 'Кибер-Услуги', href: '#services' },
-    { label: 'Сейсмозащита 9.5', href: '#engineering' },
-    { label: 'Квант-Смета', href: '#calculator' },
-    { label: 'О Бюро', href: '#about' },
+    { label: 'Проекты', href: '#portfolio' },
+    { label: 'Философия', href: '#philosophy' },
+    { label: 'Услуги', href: '#services' },
+    { label: 'Сейсмостойкость', href: '#engineering' },
+    { label: 'Расчет проекта', href: '#calculator' },
+    { label: 'О бюро', href: '#about' },
     { label: 'Контакты', href: '#contacts' },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
-      {/* Top HUD Telemetry Ribbon */}
-      <div className={`border-b border-cyan-500/15 bg-[#030407]/95 backdrop-blur-xl text-[11px] text-neutral-400 py-1.5 transition-all duration-300 ${
+      {/* Top Classical Ledger Ribbon */}
+      <div className={`border-b border-[#c5a880]/15 bg-[#121315]/95 backdrop-blur-md text-[11px] text-[#a89f91] py-1.5 transition-all duration-300 ${
         isScrolled ? 'hidden md:hidden' : 'block'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between font-mono tracking-wider">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between font-serif tracking-widest uppercase">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 text-cyan-300">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+            <span className="flex items-center gap-1.5 text-[#c5a880]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c5a880]"></span>
               <span>{COMPANY_INFO.licenseNumber}</span>
             </span>
-            <span className="hidden md:inline-block text-neutral-700">/</span>
-            <span className="hidden md:flex items-center gap-1.5 text-neutral-300">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Квантовая сейсмозащита 9.5 MSK • Графеновые экзоскелеты</span>
+            <span className="hidden md:inline-block text-neutral-600">•</span>
+            <span className="hidden md:flex items-center gap-1.5 text-[#d5cfc5]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#c5a880]" />
+              <span>Сейсмостойкость 9 баллов (СНиП КР) • Золотое сечение</span>
             </span>
           </div>
 
           <div className="flex items-center gap-5">
-            <span className="hidden sm:inline-block text-neutral-400">
-              Бишкек // Башня «Вектор 2100»
+            <span className="hidden sm:inline-block text-[#9a9182]">
+              Бишкек, пр. Манаса, 115
             </span>
             <a 
               href={`tel:${COMPANY_INFO.phonePrimary.replace(/[^0-9+]/g, '')}`} 
-              className="text-cyan-400 hover:text-cyan-300 font-mono tracking-wider transition-colors"
+              className="text-[#c5a880] hover:text-[#dfcaa7] transition-colors flex items-center gap-1.5"
             >
-              {COMPANY_INFO.phonePrimary}
+              <Phone className="w-3 h-3" />
+              <span>{COMPANY_INFO.phonePrimary}</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main Glass Navigation */}
+      {/* Main Classical Navigation Bar */}
       <div className={`transition-all duration-500 ${
         isScrolled 
-          ? 'bg-[#030407]/95 backdrop-blur-2xl border-b border-cyan-500/20 py-3 shadow-[0_10px_35px_rgba(0,240,255,0.08)]' 
-          : 'bg-gradient-to-b from-[#030407]/95 via-[#030407]/70 to-transparent py-4 sm:py-5'
+          ? 'bg-[#121315]/95 backdrop-blur-xl border-b border-[#c5a880]/20 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.5)]' 
+          : 'bg-gradient-to-b from-[#121315]/95 via-[#121315]/80 to-transparent py-4 sm:py-5'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
           
-          {/* Logo with Futuristic Holographic Brackets */}
+          {/* Classical Logo Monogram */}
           <a href="#" className="flex items-center gap-3.5 group">
-            <div className="relative w-11 h-11 rounded-xl bg-black border border-cyan-500/40 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-cyan-400 group-hover:shadow-[0_0_20px_rgba(0,240,255,0.4)]">
-              <div className="absolute inset-0 cyber-dots opacity-40" />
-              <div className="font-display font-black text-cyan-400 text-base tracking-tighter relative z-10">
+            <div className="relative w-11 h-11 border border-[#c5a880]/50 bg-[#18191c] flex items-center justify-center transition-all duration-300 group-hover:border-[#c5a880]">
+              <div className="classic-tick-tl" />
+              <div className="classic-tick-br" />
+              <span className="font-display font-semibold text-[#c5a880] text-sm tracking-wider">
                 Г+
-              </div>
-              <div className="hud-corner-tl" />
-              <div className="hud-corner-br" />
+              </span>
             </div>
 
             <div className="flex flex-col">
               <div className="flex items-baseline gap-2">
-                <span className="font-display font-black text-lg sm:text-xl tracking-[0.14em] text-white uppercase group-hover:text-cyan-300 transition-colors">
-                  ГРАНД <span className="font-light text-cyan-400">ПЛЮС</span>
+                <span className="font-display font-medium text-lg sm:text-xl tracking-[0.16em] text-[#f4efe6] uppercase group-hover:text-[#c5a880] transition-colors">
+                  ГРАНД <span className="font-light text-[#c5a880]">ПЛЮС</span>
                 </span>
-                <span className="text-[9px] font-mono tracking-widest text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded uppercase">
-                  FUTURE 2150
+                <span className="text-[9px] font-serif tracking-[0.2em] text-[#c5a880] border border-[#c5a880]/30 px-1.5 py-0.5 rounded-xs uppercase hidden sm:inline-block">
+                  EST. 2007
                 </span>
               </div>
-              <span className="text-[9px] tracking-[0.22em] text-neutral-400 uppercase font-mono">
-                Neo-Futuristic Architecture
+              <span className="text-[9px] tracking-[0.25em] text-[#9b9284] uppercase font-serif">
+                Архитектурное Бюро
               </span>
             </div>
           </a>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Classical Navigation */}
           <nav className="hidden lg:flex items-center gap-7">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-xs font-mono tracking-[0.15em] uppercase text-neutral-300 hover:text-cyan-300 transition-all relative group py-1"
+                className="text-xs font-serif tracking-[0.18em] uppercase text-[#cfc8bd] hover:text-[#c5a880] transition-all relative group py-1"
               >
                 {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#c5a880] transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
           </nav>
 
           {/* Actions */}
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3 font-serif">
             <button
               onClick={onOpenCalculator}
-              className="px-3.5 py-2 text-xs font-mono tracking-wider text-neutral-300 hover:text-cyan-300 hud-panel rounded-xl flex items-center gap-1.5 transition-all cursor-pointer"
+              className="px-3.5 py-2 text-xs tracking-wider text-[#cfc8bd] hover:text-[#c5a880] border border-[#c5a880]/30 hover:border-[#c5a880]/60 bg-[#1a1b1f]/60 rounded-xs flex items-center gap-1.5 transition-all cursor-pointer"
             >
-              <Calculator className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Квант-Смета</span>
+              <Calculator className="w-3.5 h-3.5 text-[#c5a880]" />
+              <span>Расчет проекта</span>
             </button>
 
             <button
               onClick={onOpenConsultation}
-              className="px-4 py-2 text-xs font-mono tracking-[0.12em] font-bold text-black bg-cyan-400 hover:bg-cyan-300 rounded-xl shadow-[0_0_25px_rgba(0,240,255,0.35)] transition-all flex items-center gap-1.5 uppercase cursor-pointer"
+              className="px-4 py-2 text-xs tracking-[0.15em] font-medium text-[#121315] bg-[#c5a880] hover:bg-[#d5baa0] rounded-xs shadow-sm transition-all flex items-center gap-1.5 uppercase cursor-pointer"
             >
-              <span>Инициировать проект</span>
+              <span>Консультация ГАП</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden font-serif">
             <button
               onClick={onOpenConsultation}
-              className="sm:hidden px-3 py-1.5 text-[10px] font-mono tracking-wider font-bold text-black bg-cyan-400 rounded-lg uppercase"
+              className="sm:hidden px-3 py-1.5 text-[10px] tracking-wider text-[#121315] bg-[#c5a880] rounded-xs uppercase font-medium"
             >
-              Инициировать
+              Консультация
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-neutral-300 hover:text-cyan-400 hud-panel rounded-xl focus:outline-none"
+              className="p-2 text-[#cfc8bd] hover:text-[#c5a880] border border-[#c5a880]/30 rounded-xs focus:outline-none"
               aria-label="Toggle navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -161,37 +160,37 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#030407]/98 border-b border-cyan-500/25 px-4 py-6 space-y-4 backdrop-blur-2xl">
-          <div className="flex flex-col space-y-3 font-mono">
+        <div className="lg:hidden bg-[#121315]/98 border-b border-[#c5a880]/20 px-4 py-6 space-y-4 backdrop-blur-2xl">
+          <div className="flex flex-col space-y-3 font-serif">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-sm uppercase tracking-wider text-neutral-200 hover:text-cyan-300 py-2 border-b border-white/[0.06]"
+                className="text-sm uppercase tracking-wider text-[#e2ded6] hover:text-[#c5a880] py-2 border-b border-[#c5a880]/10"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          <div className="pt-2 flex flex-col gap-2 font-mono">
+          <div className="pt-2 flex flex-col gap-2 font-serif">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenCalculator();
               }}
-              className="w-full py-3 rounded-xl hud-panel text-xs uppercase tracking-wider text-neutral-200 flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xs border border-[#c5a880]/30 text-xs uppercase tracking-wider text-[#cfc8bd] flex items-center justify-center gap-2"
             >
-              <Calculator className="w-4 h-4 text-cyan-400" />
-              <span>Калькулятор сметы 2150</span>
+              <Calculator className="w-4 h-4 text-[#c5a880]" />
+              <span>Расчет стоимости проекта</span>
             </button>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenConsultation();
               }}
-              className="w-full py-3 rounded-xl bg-cyan-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xs bg-[#c5a880] text-[#121315] font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2"
             >
               <span>Связаться с ГАП бюро</span>
               <ArrowUpRight className="w-4 h-4" />

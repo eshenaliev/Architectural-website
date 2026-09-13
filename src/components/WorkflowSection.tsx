@@ -1,106 +1,103 @@
 import React from 'react';
 import { 
-  FileText, 
-  Layers, 
   Compass, 
-  CheckCircle, 
+  Layers, 
+  FileCheck2, 
   ShieldCheck, 
-  Cpu,
-  Atom,
-  Zap,
-  Radio
+  Eye, 
+  CheckCircle2
 } from 'lucide-react';
 
 export const WorkflowSection: React.FC = () => {
   const steps = [
     {
       num: '01',
-      title: 'Лидарное 3D-Сканирование & Геология',
-      desc: 'Анализ тектонических разломов, получение АПУ/ИТУ в ГлавАПУ, лазерная съемка пятна застройки дронами и квантово-сейсмический зондаж грунта.',
-      icon: Radio
+      title: 'Геология & Градостроительный Анализ',
+      desc: 'Топографическая съемка, шурфование горных грунтов, получение АПУ/ИТУ в Бишкекглавархитектуре и посадка резиденции по сторонам света с видом на горы.',
+      icon: Compass
     },
     {
       num: '02',
-      title: 'Алгоритмический Эскиз (ЭП-2150)',
-      desc: 'Генеративное формообразование в Grasshopper, сквозная аэродинамическая симуляция ветровых потоков и голографическая визуализация 8K.',
+      title: 'Эскизный Проект & Золотое Сечение (ЭП)',
+      desc: 'Поиск идеальных пропорций, проработка анфиладных осей, высот этажей, ордерного портика и создание фотореалистичных 3D-визуализаций.',
       icon: Layers
     },
     {
       num: '03',
-      title: 'Сейсмощит 9.5 MSK & Каркас (Стадия «П»)',
-      desc: 'Нелинейный МКЭ-расчет несущего графенового остова в ANSYS и ЛИРА-САПР, интеграция магнитных подушек и маятниковых демпферов.',
-      icon: Compass
+      title: 'Архитектурные Решения (Раздел АР)',
+      desc: 'Детальные чертежи карнизов, сандриков, балюстрад в масштабе 1:10 и 1:1. Попильная раскладка плит травертина Сары-Таш и гранита для камнерезного производства.',
+      icon: Eye
     },
     {
       num: '04',
-      title: 'Главгосэкспертиза КР (100% Успех)',
-      desc: 'Защита расчетных моделей в органах экспертизы Кыргызской Республики, согласование специальных технических условий (СТУ) без проволочек.',
+      title: 'Конструкции Железобетонные (Раздел КЖ/КР)',
+      desc: 'Расчет монолитного каркаса и фундаментов на сейсмичность до 9 баллов по СНиП КР 20-02:2018 в лицензионных программных комплексах ЛИРА-САПР и SCAD.',
       icon: ShieldCheck
     },
     {
       num: '05',
-      title: 'Цифровой Двойник Здания (LOD 500)',
-      desc: 'Передача генеральному подрядчику сверхточных ЧПУ-файлов производства фасадных панелей, спецификаций титан-стали и 5D календарного графика.',
-      icon: Cpu
+      title: 'Государственная Экспертиза Госстроя',
+      desc: 'Комплексная защита проектных решений перед экспертами Государственного агентства архитектуры и строительства КР до получения положительного заключения.',
+      icon: FileCheck2
     },
     {
       num: '06',
-      title: 'IoT-Мониторинг & Авторский Надзор',
-      desc: 'Установка тензодатчиков в заливаемый монолит, контроль геометрии спутниковым RTK-позиционированием и сдача аркологии в эксплуатацию.',
-      icon: CheckCircle
+      title: 'Авторский Надзор Главного Архитектора',
+      desc: 'Регулярный выезд ГАПа на объект. Приемка арматурных сеток перед заливкой бетона, контроль геометрии каменной облицовки и сдача объекта под ключ.',
+      icon: CheckCircle2
     }
   ];
 
   return (
-    <section className="py-24 sm:py-32 bg-[#030407] relative overflow-hidden border-t border-cyan-500/20">
+    <section className="py-24 sm:py-32 bg-[#121315] relative overflow-hidden border-t border-[#c5a880]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-cyan-400">
-            <Atom className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
-            <span>ПРОТОКОЛ ВОЗВЕДЕНИЯ МЕГАСТРУКТУРЫ</span>
+          <div className="inline-flex items-center gap-2 text-xs font-serif uppercase tracking-[0.25em] text-[#c5a880]">
+            <Compass className="w-3.5 h-3.5 text-[#c5a880]" />
+            <span>СТРОГИЙ РЕГЛАМЕНТ РАБОТЫ БЮРО</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-white tracking-tight uppercase leading-[1.08]">
-            Алгоритм Реализации Проекта 2150
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-normal text-[#f4efe6] tracking-tight leading-[1.1]">
+            Этапы Создания Классической Резиденции
           </h2>
-          <p className="text-neutral-300 text-sm sm:text-base font-light font-sans">
-            Каждый шаг строго регламентирован внутренними протоколами качества ОсОО «ГРАНД Плюс» и стандартами строительной безопасности Кыргызской Республики.
+          <p className="text-[#a89f91] text-sm sm:text-base font-light font-sans">
+            От первого карандашного наброска до подписания акта ввода в эксплуатацию. Каждый этап строго регламентирован нормами Кыргызской Республики.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-serif">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
               <div 
                 key={idx}
-                className="hud-panel p-6 sm:p-7 rounded-2xl transition-all duration-300 relative group flex flex-col justify-between"
+                className="classic-frame p-6 sm:p-7 transition-all duration-300 relative group flex flex-col justify-between"
               >
-                <div className="hud-corner-tl" />
-                <div className="hud-corner-br" />
+                <div className="classic-tick-tl" />
+                <div className="classic-tick-br" />
 
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="font-mono text-2xl font-black text-cyan-500/40 group-hover:text-cyan-400 transition-colors">
-                      // {step.num}
+                    <span className="text-2xl font-serif text-[#c5a880]/50 group-hover:text-[#c5a880] transition-colors">
+                      № 0{idx + 1}
                     </span>
-                    <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-black transition-colors">
+                    <div className="w-10 h-10 border border-[#c5a880]/30 bg-[#16171a] flex items-center justify-center text-[#c5a880] group-hover:border-[#c5a880] transition-colors">
                       <Icon className="w-5 h-5" />
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors uppercase">
+                  <h3 className="text-lg font-serif font-medium text-[#f4efe6] mb-2 group-hover:text-[#c5a880] transition-colors">
                     {step.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans font-light">
+                  <p className="text-xs sm:text-sm text-[#a89f91] leading-relaxed font-sans font-light">
                     {step.desc}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-cyan-500/15 flex items-center justify-between text-[11px] font-mono text-neutral-400 group-hover:text-cyan-300">
-                  <span>ФАЗА {idx + 1} ИЗ 6</span>
-                  <span className="text-emerald-400 font-semibold">СНиП КР / BIM 5D</span>
+                <div className="mt-6 pt-4 border-t border-[#c5a880]/15 flex items-center justify-between text-[11px] font-serif text-[#8c8477]">
+                  <span>ЭТАП {idx + 1} ИЗ 6</span>
+                  <span className="text-[#c5a880]">СНиП КР • Госстрой</span>
                 </div>
               </div>
             );

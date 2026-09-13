@@ -1,83 +1,68 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Rajdhani', system-ui, -apple-system, sans-serif;
-  --font-display: 'Orbitron', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-display: 'Cinzel', serif;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #030407;
+  background-color: #121315;
   color-scheme: dark;
 }
 
-/* Cyber-Architectural Grid & HUD */
-.cyber-grid {
-  background-size: 40px 40px;
+/* Classical Architectural Drafting Grid - Subtle & Minimalist */
+.classic-grid {
+  background-size: 60px 60px;
   background-image: 
-    linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(197, 168, 128, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(197, 168, 128, 0.04) 1px, transparent 1px);
 }
 
-.cyber-dots {
-  background-image: radial-gradient(rgba(0, 240, 255, 0.12) 1px, transparent 1px);
-  background-size: 20px 20px;
+.classic-dots {
+  background-image: radial-gradient(rgba(197, 168, 128, 0.12) 1px, transparent 1px);
+  background-size: 30px 30px;
 }
 
-/* Sci-fi scanner line animation */
-@keyframes laserScan {
-  0% { transform: translateY(-100%); opacity: 0.2; }
-  50% { opacity: 0.8; }
-  100% { transform: translateY(1000%); opacity: 0.2; }
-}
-
-.animate-laser-scan {
-  animation: laserScan 6s linear infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.4; filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.4)); }
-  50% { opacity: 0.9; filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.8)); }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-/* Hologram corner cut & HUD borders */
-.hud-panel {
+/* Classical Proportion Frame */
+.classic-frame {
   position: relative;
-  background: rgba(8, 11, 18, 0.85);
-  border: 1px solid rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(197, 168, 128, 0.2);
+  background: rgba(22, 23, 26, 0.75);
   backdrop-filter: blur(12px);
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
 }
 
-.hud-panel:hover {
-  border-color: rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.1);
+.classic-frame:hover {
+  border-color: rgba(197, 168, 128, 0.45);
 }
 
-/* Corner bracket accents */
-.hud-corner-tl {
+/* Subtle Roman / Classical corner tick */
+.classic-tick-tl {
   position: absolute;
   top: -1px;
   left: -1px;
-  width: 8px;
-  height: 8px;
-  border-top: 2px solid #00f0ff;
-  border-left: 2px solid #00f0ff;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid #c5a880;
+  border-left: 1px solid #c5a880;
 }
 
-.hud-corner-br {
+.classic-tick-br {
   position: absolute;
   bottom: -1px;
   right: -1px;
-  width: 8px;
-  height: 8px;
-  border-bottom: 2px solid #00f0ff;
-  border-right: 2px solid #00f0ff;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1px solid #c5a880;
+  border-right: 1px solid #c5a880;
 }
+
+/* Soft gold glow */
+.gold-line {
+  background: linear-gradient(90deg, transparent, rgba(197, 168, 128, 0.6), transparent);
+}
+
 
 
