@@ -16,9 +16,15 @@ export interface TranslationDictionary {
       commercial: string;
       other: string;
     };
-    pricing: { title: string; subtitle: string };
+    pricing: {
+      title: string;
+      subtitle: string;
+      packages: string;
+      custom: string;
+    };
     promotions: { title: string; subtitle: string };
     readyProjects: { title: string; subtitle: string };
+    guide: { title: string; subtitle: string };
     contact: { title: string; subtitle: string };
     careers: { title: string; subtitle: string };
     works: { title: string; subtitle: string };
@@ -170,9 +176,15 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
         commercial: 'Коммерческие',
         other: 'Другие',
       },
-      pricing: { title: 'Стоимость', subtitle: 'Тарифы на проектирование' },
+      pricing: {
+        title: 'Стоимость',
+        subtitle: 'Тарифы на проектирование',
+        packages: 'Готовые пакеты',
+        custom: 'Соберите свой пакет',
+      },
       promotions: { title: 'Акции', subtitle: 'Специальные предложения' },
       readyProjects: { title: 'Готовые проекты', subtitle: 'Авторские типовые решения' },
+      guide: { title: 'Новичкам', subtitle: 'От покупки участка до ввода в эксплуатацию' },
       contact: { title: 'Контакты', subtitle: 'г. Бишкек, пр. Шабдан Баатыра, 43а' },
       careers: { title: 'Карьера', subtitle: 'Вакансии и практика в бюро' },
       works: { title: 'Проекты', subtitle: 'Архитектура и реализованные объекты' },
@@ -322,9 +334,15 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
         commercial: 'Commercial',
         other: 'Other',
       },
-      pricing: { title: 'Pricing', subtitle: 'Architectural Fee Packages' },
+      pricing: {
+        title: 'Pricing',
+        subtitle: 'Architectural Fee Packages',
+        packages: 'Ready Packages',
+        custom: 'Build Your Own Package',
+      },
       promotions: { title: 'Offers', subtitle: 'Seasonal Packages' },
       readyProjects: { title: 'Ready Projects', subtitle: 'Turnkey Pre-Designed Blueprints' },
+      guide: { title: 'Beginners Guide', subtitle: 'From Land Purchase to Commissioning' },
       contact: { title: 'Contact', subtitle: 'Bishkek HQ, Shabdan Baatyr 43a' },
       careers: { title: 'Careers', subtitle: 'Open Roles & Internships' },
       works: { title: 'Works', subtitle: 'Selected Architecture & Projects' },
@@ -474,9 +492,15 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
         commercial: 'Коммерциялык',
         other: 'Башкалар',
       },
-      pricing: { title: 'Баасы', subtitle: 'Долбоорлоо тарифтери' },
+      pricing: {
+        title: 'Баасы',
+        subtitle: 'Долбоорлоо тарифтери',
+        packages: 'Даяр пакеттер',
+        custom: 'Өз пакетиңизди түзүңүз',
+      },
       promotions: { title: 'Акциялар', subtitle: 'Атайын сунуштар' },
       readyProjects: { title: 'Даяр долбоорлор', subtitle: 'Автордук даяр чечимдер' },
+      guide: { title: 'Новичкам', subtitle: 'Жер тилкесин алуудан пайдаланууга чейин' },
       contact: { title: 'Байланыш', subtitle: 'Бишкек ш., Шабдан Баатыр пр., 43а' },
       careers: { title: 'Карьера', subtitle: 'Бош орундар жана практика' },
       works: { title: 'Долбоорлор', subtitle: 'Архитектура жана ишке ашкан иштер' },
@@ -626,9 +650,15 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
         commercial: '商业',
         other: '其他',
       },
-      pricing: { title: '费用', subtitle: '建筑设计取费标准' },
+      pricing: {
+        title: '费用',
+        subtitle: '建筑设计取费标准',
+        packages: '固定成熟套餐',
+        custom: '自由定制方案包',
+      },
       promotions: { title: '特惠', subtitle: '当季专属礼遇' },
       readyProjects: { title: '成熟方案', subtitle: '高标准可落地精选图纸' },
+      guide: { title: '新手指南', subtitle: '从买地选址到竣工验收全流程' },
       contact: { title: '联系', subtitle: '比什凯克市沙卜丹·巴特尔大街43a' },
       careers: { title: '招贤', subtitle: '职位招聘与实习通道' },
       works: { title: '作品案例', subtitle: '精选建筑与设计作品' },

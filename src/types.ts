@@ -1,4 +1,5 @@
 export type ProjectType = 'residential' | 'commercial' | 'other';
+export type PricingSubTab = 'packages' | 'custom';
 
 export interface ProjectItem {
   id: string;

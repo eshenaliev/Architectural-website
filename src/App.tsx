@@ -8,6 +8,7 @@ import { ProjectsSection } from './components/ProjectsSection';
 import { PricingSection } from './components/PricingSection';
 import { PromotionsSection } from './components/PromotionsSection';
 import { ReadyProjectsSection } from './components/ReadyProjectsSection';
+import { BeginnersGuideSection } from './components/BeginnersGuideSection';
 import { CareersSection } from './components/CareersSection';
 import { PhilosophySection } from './components/PhilosophySection';
 import { ArchitectsSection } from './components/ArchitectsSection';
@@ -20,18 +21,21 @@ import { ProjectModal } from './components/ProjectModal';
 import { ContactModal } from './components/ContactModal';
 import { WorksDrawer } from './components/WorksDrawer';
 import { FEATURED_PROJECTS } from './data/projects';
-import { ProjectItem, ProjectType } from './types';
+import { ProjectItem, ProjectType, PricingSubTab } from './types';
 import { Language } from './data/translations';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<NavSection>('home');
   const [projectFilter, setProjectFilter] = useState<'all' | ProjectType>('all');
+  const [pricingSubTab, setPricingSubTab] = useState<PricingSubTab>('packages');
   const [currentLang, setCurrentLang] = useState<Language>('RU');
   const [menuOpen, setMenuOpen] = useState(false);
   const [worksOpen, setWorksOpen] = useState(false);
   const [selectedProjectForModal, setSelectedProjectForModal] = useState<ProjectItem | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
   const [inquiryTargetProject, setInquiryTargetProject] = useState<ProjectItem | null>(null);
+  const [inquiryCustomMessage, setInquiryCustomMessage] = useState<string>('');
+  const [inquiryProjectType, setInquiryProjectType] = useState<string>('');
 
   const heroProject = FEATURED_PROJECTS[0];
 
@@ -41,6 +45,15 @@ export default function App() {
 
   const handleInquireFromProject = (project: ProjectItem) => {
     setInquiryTargetProject(project);
+    setInquiryCustomMessage('');
+    setInquiryProjectType(project.category);
+    setContactOpen(true);
+  };
+
+  const handleInquireFromPricing = (customMessage?: string, packageTitle?: string) => {
+    setInquiryTargetProject(null);
+    setInquiryCustomMessage(customMessage || '');
+    setInquiryProjectType(packageTitle ? `Тариф: ${packageTitle}` : 'Проектирование');
     setContactOpen(true);
   };
 
@@ -48,10 +61,13 @@ export default function App() {
     setActiveSection('contact');
   };
 
-  const handleSelectSection = (section: NavSection, filter?: 'all' | ProjectType) => {
+  const handleSelectSection = (section: NavSection, filter?: 'all' | ProjectType, pricingTab?: PricingSubTab) => {
     setActiveSection(section);
     if (filter) {
       setProjectFilter(filter);
+    }
+    if (pricingTab) {
+      setPricingSubTab(pricingTab);
     }
   };
 
@@ -78,6 +94,7 @@ export default function App() {
         <LeftNavigationPanel
           activeSection={activeSection}
           projectFilter={projectFilter}
+          pricingSubTab={pricingSubTab}
           onSelectSection={handleSelectSection}
           currentLang={currentLang}
         />
@@ -124,23 +141,33 @@ export default function App() {
           {/* Стоимость */}
           {activeSection === 'pricing' && (
             <PricingSection
-              onInquire={() => setContactOpen(true)}
+              onInquire={handleInquireFromPricing}
               currentLang={currentLang}
+              activeTab={pricingSubTab}
+              onTabChange={setPricingSubTab}
             />
           )}
 
-          {/* Акции */}
-          {activeSection === 'promotions' && (
-            <PromotionsSection
-              onInquire={() => setContactOpen(true)}
-              currentLang={currentLang}
-            />
-          )}
-
-          {/* Готовые проекты (После акции) */}
+          {/* Готовые проекты */}
           {activeSection === 'readyProjects' && (
             <ReadyProjectsSection
               onInquire={() => {
+                setInquiryTargetProject(null);
+                setInquiryCustomMessage('Запрос на приобретение готового архитектурного проекта из каталога.');
+                setInquiryProjectType('Готовый проект');
+                setContactOpen(true);
+              }}
+              currentLang={currentLang}
+            />
+          )}
+
+          {/* Новичкам: пошаговый гид от покупки участка до ввода в эксплуатацию */}
+          {activeSection === 'guide' && (
+            <BeginnersGuideSection
+              onInquire={(customMsg) => {
+                setInquiryTargetProject(null);
+                setInquiryCustomMessage(customMsg || 'Консультация для застройщика: пошаговый план строительства объекта');
+                setInquiryProjectType('Консультация новичкам');
                 setContactOpen(true);
               }}
               currentLang={currentLang}
@@ -257,6 +284,8 @@ export default function App() {
         isOpen={contactOpen}
         onClose={() => setContactOpen(false)}
         selectedProject={inquiryTargetProject}
+        initialMessage={inquiryCustomMessage}
+        initialProjectType={inquiryProjectType}
         currentLang={currentLang}
       />
     </div>

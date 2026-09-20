@@ -1,26 +1,67 @@
-import React from 'react';
-import { ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronRight, ChevronDown } from 'lucide-react';
 import { Language, TRANSLATIONS } from '../data/translations';
-import { ProjectType } from '../types';
+import { ProjectType, PricingSubTab } from '../types';
 
-export type NavSection = 'home' | 'services' | 'projects' | 'pricing' | 'promotions' | 'readyProjects' | 'contact' | 'careers' | 'philosophy' | 'architects' | 'materials' | 'global';
+export type NavSection = 'home' | 'services' | 'projects' | 'pricing' | 'promotions' | 'readyProjects' | 'guide' | 'contact' | 'careers' | 'philosophy' | 'architects' | 'materials' | 'global';
 
 interface LeftNavigationPanelProps {
   activeSection: NavSection;
   projectFilter?: 'all' | ProjectType;
-  onSelectSection: (section: NavSection, filter?: 'all' | ProjectType) => void;
+  pricingSubTab?: PricingSubTab;
+  onSelectSection: (section: NavSection, filter?: 'all' | ProjectType, pricingTab?: PricingSubTab) => void;
   currentLang?: Language;
 }
 
 export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
   activeSection,
   projectFilter = 'all',
+  pricingSubTab = 'packages',
   onSelectSection,
   currentLang = 'RU',
 }) => {
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS.RU;
 
   const isProjectsActive = activeSection === 'projects';
+  const [isProjectsExpanded, setIsProjectsExpanded] = useState<boolean>(activeSection === 'projects');
+
+  const isPricingActive = activeSection === 'pricing';
+  const [isPricingExpanded, setIsPricingExpanded] = useState<boolean>(activeSection === 'pricing');
+
+  // When switching to any other section, control accordion states
+  useEffect(() => {
+    if (activeSection === 'projects') {
+      setIsProjectsExpanded(true);
+    } else {
+      setIsProjectsExpanded(false);
+    }
+
+    if (activeSection === 'pricing') {
+      setIsPricingExpanded(true);
+    } else {
+      setIsPricingExpanded(false);
+    }
+  }, [activeSection]);
+
+  const handleProjectsClick = () => {
+    if (!isProjectsActive) {
+      onSelectSection('projects', 'all');
+      setIsProjectsExpanded(true);
+    } else {
+      // Toggle accordion if already in projects
+      setIsProjectsExpanded((prev) => !prev);
+    }
+  };
+
+  const handlePricingClick = () => {
+    if (!isPricingActive) {
+      onSelectSection('pricing', undefined, pricingSubTab || 'packages');
+      setIsPricingExpanded(true);
+    } else {
+      // Toggle accordion if already in pricing
+      setIsPricingExpanded((prev) => !prev);
+    }
+  };
 
   return (
     <nav
@@ -77,138 +118,171 @@ export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
         <div className="pt-0.5">
           {/* Main "Проекты" Row */}
           <button
-            onClick={() => onSelectSection('projects', 'all')}
+            onClick={handleProjectsClick}
             className={`group text-left w-full py-1.5 px-2 border-l-2 transition-all cursor-pointer focus:outline-none flex items-center justify-between ${
-              isProjectsActive && projectFilter === 'all'
+              isProjectsActive
                 ? 'border-neutral-900 bg-neutral-50/90 text-neutral-900 font-medium'
-                : isProjectsActive
-                ? 'border-neutral-400 bg-neutral-50/40 text-neutral-900'
                 : 'border-transparent text-neutral-700 hover:text-black hover:bg-neutral-50/50'
             }`}
           >
             <div className="flex flex-col">
               <span className="font-serif text-base sm:text-lg leading-tight tracking-tight">
-                {t.nav.projects.title}:
+                {t.nav.projects.title}
               </span>
               <span className="font-serif text-[11px] text-neutral-400 group-hover:text-neutral-600 font-light mt-0.5">
                 {t.nav.projects.subtitle}
               </span>
             </div>
-            {isProjectsActive && (
-              <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
-                {projectFilter === 'all' ? 'ALL' : projectFilter.toUpperCase()}
-              </span>
-            )}
+            <div className="flex items-center gap-1.5">
+              {isProjectsActive && projectFilter !== 'all' && (
+                <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest bg-neutral-200/60 px-1 py-0.5">
+                  {projectFilter.slice(0, 3)}
+                </span>
+              )}
+              {isProjectsExpanded ? (
+                <ChevronDown className="w-3.5 h-3.5 text-neutral-900 shrink-0" />
+              ) : (
+                <ChevronRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-700 shrink-0" />
+              )}
+            </div>
           </button>
 
-          {/* Sub-items: Жилые, Коммерческие, Другие */}
-          <div className="ml-3 pl-2.5 border-l border-neutral-200 py-0.5 space-y-0.5 mt-0.5">
-            {/* Жилые */}
-            <button
-              onClick={() => onSelectSection('projects', 'residential')}
-              className={`w-full text-left py-1 px-2 transition-all text-xs font-serif flex items-center justify-between cursor-pointer ${
-                isProjectsActive && projectFilter === 'residential'
-                  ? 'text-neutral-900 font-medium bg-neutral-100/90'
-                  : 'text-neutral-600 hover:text-black hover:bg-neutral-50'
-              }`}
-            >
-              <span className="flex items-center gap-1.5">
-                <span className="text-[10px] text-neutral-400 font-mono">—</span>
-                <span>{t.nav.projects.residential}</span>
-              </span>
-              {isProjectsActive && projectFilter === 'residential' && (
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
-              )}
-            </button>
+          {/* Sub-items: Жилые, Коммерческие, Другие (отображаются при нажатии на Проекты и скрываются при нажатии на другие) */}
+          {isProjectsExpanded && (
+            <div className="ml-3 pl-2.5 border-l border-neutral-200 py-0.5 space-y-0.5 mt-0.5 transition-all">
+              {/* Жилые */}
+              <button
+                onClick={() => onSelectSection('projects', 'residential')}
+                className={`w-full text-left py-1 px-2 transition-all text-xs font-serif flex items-center justify-between cursor-pointer ${
+                  isProjectsActive && projectFilter === 'residential'
+                    ? 'text-neutral-900 font-medium bg-neutral-100/90'
+                    : 'text-neutral-600 hover:text-black hover:bg-neutral-50'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-neutral-400 font-mono">—</span>
+                  <span>{t.nav.projects.residential}</span>
+                </span>
+                {isProjectsActive && projectFilter === 'residential' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+                )}
+              </button>
 
-            {/* Коммерческие */}
-            <button
-              onClick={() => onSelectSection('projects', 'commercial')}
-              className={`w-full text-left py-1 px-2 transition-all text-xs font-serif flex items-center justify-between cursor-pointer ${
-                isProjectsActive && projectFilter === 'commercial'
-                  ? 'text-neutral-900 font-medium bg-neutral-100/90'
-                  : 'text-neutral-600 hover:text-black hover:bg-neutral-50'
-              }`}
-            >
-              <span className="flex items-center gap-1.5">
-                <span className="text-[10px] text-neutral-400 font-mono">—</span>
-                <span>{t.nav.projects.commercial}</span>
-              </span>
-              {isProjectsActive && projectFilter === 'commercial' && (
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
-              )}
-            </button>
+              {/* Коммерческие */}
+              <button
+                onClick={() => onSelectSection('projects', 'commercial')}
+                className={`w-full text-left py-1 px-2 transition-all text-xs font-serif flex items-center justify-between cursor-pointer ${
+                  isProjectsActive && projectFilter === 'commercial'
+                    ? 'text-neutral-900 font-medium bg-neutral-100/90'
+                    : 'text-neutral-600 hover:text-black hover:bg-neutral-50'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-neutral-400 font-mono">—</span>
+                  <span>{t.nav.projects.commercial}</span>
+                </span>
+                {isProjectsActive && projectFilter === 'commercial' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+                )}
+              </button>
 
-            {/* Другие */}
-            <button
-              onClick={() => onSelectSection('projects', 'other')}
-              className={`w-full text-left py-1 px-2 transition-all text-xs font-serif flex items-center justify-between cursor-pointer ${
-                isProjectsActive && projectFilter === 'other'
-                  ? 'text-neutral-900 font-medium bg-neutral-100/90'
-                  : 'text-neutral-600 hover:text-black hover:bg-neutral-50'
-              }`}
-            >
-              <span className="flex items-center gap-1.5">
-                <span className="text-[10px] text-neutral-400 font-mono">—</span>
-                <span>{t.nav.projects.other}</span>
-              </span>
-              {isProjectsActive && projectFilter === 'other' && (
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
-              )}
-            </button>
-          </div>
+              {/* Другие */}
+              <button
+                onClick={() => onSelectSection('projects', 'other')}
+                className={`w-full text-left py-1 px-2 transition-all text-xs font-serif flex items-center justify-between cursor-pointer ${
+                  isProjectsActive && projectFilter === 'other'
+                    ? 'text-neutral-900 font-medium bg-neutral-100/90'
+                    : 'text-neutral-600 hover:text-black hover:bg-neutral-50'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-neutral-400 font-mono">—</span>
+                  <span>{t.nav.projects.other}</span>
+                </span>
+                {isProjectsActive && projectFilter === 'other' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+                )}
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* 4. Стоимость */}
-        <button
-          onClick={() => onSelectSection('pricing')}
-          className={`group text-left py-1.5 px-2 border-l-2 transition-all cursor-pointer focus:outline-none flex items-center justify-between ${
-            activeSection === 'pricing'
-              ? 'border-neutral-900 bg-neutral-50/90 text-neutral-900 font-medium'
-              : 'border-transparent text-neutral-700 hover:text-black hover:bg-neutral-50/50'
-          }`}
-        >
-          <div className="flex flex-col">
-            <span className="font-serif text-base sm:text-lg leading-tight tracking-tight">
-              {t.nav.pricing.title}
-            </span>
-            <span className="font-serif text-[11px] text-neutral-400 group-hover:text-neutral-600 font-light mt-0.5">
-              {t.nav.pricing.subtitle}
-            </span>
-          </div>
-          {activeSection === 'pricing' && (
-            <ChevronRight className="w-3.5 h-3.5 text-neutral-900 shrink-0" />
-          )}
-        </button>
-
-        {/* 5. Акции */}
-        <button
-          onClick={() => onSelectSection('promotions')}
-          className={`group text-left py-1.5 px-2 border-l-2 transition-all cursor-pointer focus:outline-none flex items-center justify-between ${
-            activeSection === 'promotions'
-              ? 'border-neutral-900 bg-neutral-50/90 text-neutral-900 font-medium'
-              : 'border-transparent text-neutral-700 hover:text-black hover:bg-neutral-50/50'
-          }`}
-        >
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
+        {/* 4. Стоимость with Nested Sub-items (Готовые пакеты & Соберите свой пакет) */}
+        <div className="pt-0.5">
+          {/* Main "Стоимость" Row */}
+          <button
+            onClick={handlePricingClick}
+            className={`group text-left w-full py-1.5 px-2 border-l-2 transition-all cursor-pointer focus:outline-none flex items-center justify-between ${
+              isPricingActive
+                ? 'border-neutral-900 bg-neutral-50/90 text-neutral-900 font-medium'
+                : 'border-transparent text-neutral-700 hover:text-black hover:bg-neutral-50/50'
+            }`}
+          >
+            <div className="flex flex-col">
               <span className="font-serif text-base sm:text-lg leading-tight tracking-tight">
-                {t.nav.promotions.title}
+                {t.nav.pricing.title}
               </span>
-              <span className="text-[9px] font-mono text-emerald-700 bg-emerald-50 px-1 py-0.2 border border-emerald-200">
-                PROMO
+              <span className="font-serif text-[11px] text-neutral-400 group-hover:text-neutral-600 font-light mt-0.5">
+                {t.nav.pricing.subtitle}
               </span>
             </div>
-            <span className="font-serif text-[11px] text-neutral-400 group-hover:text-neutral-600 font-light mt-0.5">
-              {t.nav.promotions.subtitle}
-            </span>
-          </div>
-          {activeSection === 'promotions' && (
-            <ChevronRight className="w-3.5 h-3.5 text-neutral-900 shrink-0" />
-          )}
-        </button>
+            <div className="flex items-center gap-1.5">
+              {isPricingActive && (
+                <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-wider bg-neutral-200/60 px-1 py-0.5">
+                  {pricingSubTab === 'packages' ? (currentLang === 'RU' ? 'ПАКЕТЫ' : 'PACKAGES') : (currentLang === 'RU' ? 'КОНСТРУКТОР' : 'CUSTOM')}
+                </span>
+              )}
+              {isPricingExpanded ? (
+                <ChevronDown className="w-3.5 h-3.5 text-neutral-900 shrink-0" />
+              ) : (
+                <ChevronRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-700 shrink-0" />
+              )}
+            </div>
+          </button>
 
-        {/* 6. Готовые проекты (После акции) */}
+          {/* Sub-items: Готовые пакеты & Соберите свой пакет (отображаются при нажатии на Стоимость и скрываются при нажатии на другие) */}
+          {isPricingExpanded && (
+            <div className="ml-3 pl-2.5 border-l border-neutral-200 py-0.5 space-y-0.5 mt-0.5 transition-all">
+              {/* Готовые пакеты */}
+              <button
+                onClick={() => onSelectSection('pricing', undefined, 'packages')}
+                className={`w-full text-left py-1 px-2 transition-all text-xs font-serif flex items-center justify-between cursor-pointer ${
+                  isPricingActive && pricingSubTab === 'packages'
+                    ? 'text-neutral-900 font-medium bg-neutral-100/90'
+                    : 'text-neutral-600 hover:text-black hover:bg-neutral-50'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-neutral-400 font-mono">—</span>
+                  <span>{t.nav.pricing.packages}</span>
+                </span>
+                {isPricingActive && pricingSubTab === 'packages' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+                )}
+              </button>
+
+              {/* Соберите свой пакет */}
+              <button
+                onClick={() => onSelectSection('pricing', undefined, 'custom')}
+                className={`w-full text-left py-1 px-2 transition-all text-xs font-serif flex items-center justify-between cursor-pointer ${
+                  isPricingActive && pricingSubTab === 'custom'
+                    ? 'text-neutral-900 font-medium bg-neutral-100/90'
+                    : 'text-neutral-600 hover:text-black hover:bg-neutral-50'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-neutral-400 font-mono">—</span>
+                  <span>{t.nav.pricing.custom}</span>
+                </span>
+                {isPricingActive && pricingSubTab === 'custom' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* 5. Готовые проекты */}
         <button
           onClick={() => onSelectSection('readyProjects')}
           className={`group text-left py-1.5 px-2 border-l-2 transition-all cursor-pointer focus:outline-none flex items-center justify-between ${
@@ -235,6 +309,33 @@ export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
           )}
         </button>
 
+        {/* 6. Новичкам (Гид от участка до ввода в эксплуатацию) */}
+        <button
+          onClick={() => onSelectSection('guide')}
+          className={`group text-left py-1.5 px-2 border-l-2 transition-all cursor-pointer focus:outline-none flex items-center justify-between ${
+            activeSection === 'guide'
+              ? 'border-neutral-900 bg-neutral-50/90 text-neutral-900 font-medium'
+              : 'border-transparent text-neutral-700 hover:text-black hover:bg-neutral-50/50'
+          }`}
+        >
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5">
+              <span className="font-serif text-base sm:text-lg leading-tight tracking-tight">
+                {t.nav.guide.title}
+              </span>
+              <span className="text-[9px] font-mono text-emerald-800 bg-emerald-50 px-1 py-0.2 border border-emerald-200 font-medium">
+                ГИД
+              </span>
+            </div>
+            <span className="font-serif text-[11px] text-neutral-400 group-hover:text-neutral-600 font-light mt-0.5">
+              {t.nav.guide.subtitle}
+            </span>
+          </div>
+          {activeSection === 'guide' && (
+            <ChevronRight className="w-3.5 h-3.5 text-neutral-900 shrink-0" />
+          )}
+        </button>
+
         {/* 7. Контакты */}
         <button
           onClick={() => onSelectSection('contact')}
@@ -257,7 +358,7 @@ export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
           )}
         </button>
 
-        {/* 8. Карьера */}
+        {/* 7. Карьера */}
         <button
           onClick={() => onSelectSection('careers')}
           className={`group text-left py-1.5 px-2 border-l-2 transition-all cursor-pointer focus:outline-none flex items-center justify-between ${

@@ -7,6 +7,8 @@ interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedProject?: ProjectItem | null;
+  initialMessage?: string;
+  initialProjectType?: string;
   currentLang?: Language;
 }
 
@@ -14,16 +16,34 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   isOpen,
   onClose,
   selectedProject,
+  initialMessage,
+  initialProjectType,
   currentLang = 'RU',
 }) => {
   const [submitted, setSubmitted] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [location, setLocation] = useState('');
-  const [projectType, setProjectType] = useState(selectedProject ? selectedProject.category : 'Проектирование');
-  const [message, setMessage] = useState(
-    selectedProject ? `Запрос на консультацию / расчет по проекту "${selectedProject.title}" (${selectedProject.category}).` : ''
+  const [projectType, setProjectType] = useState(
+    initialProjectType || (selectedProject ? selectedProject.category : 'Проектирование')
   );
+  const [message, setMessage] = useState(
+    initialMessage ||
+    (selectedProject ? `Запрос на консультацию / расчет по проекту "${selectedProject.title}" (${selectedProject.category}).` : '')
+  );
+
+  React.useEffect(() => {
+    if (isOpen) {
+      if (initialMessage) {
+        setMessage(initialMessage);
+      } else if (selectedProject) {
+        setMessage(`Запрос на консультацию / расчет по проекту "${selectedProject.title}" (${selectedProject.category}).`);
+      }
+      if (initialProjectType) {
+        setProjectType(initialProjectType);
+      }
+    }
+  }, [isOpen, initialMessage, selectedProject, initialProjectType]);
 
   if (!isOpen) return null;
 

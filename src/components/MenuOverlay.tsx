@@ -28,8 +28,8 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
     { id: 'services', label: t.nav.services.title, sub: t.nav.services.subtitle },
     { id: 'projects', label: t.nav.projects.title, sub: t.nav.projects.subtitle },
     { id: 'pricing', label: t.nav.pricing.title, sub: t.nav.pricing.subtitle },
-    { id: 'promotions', label: t.nav.promotions.title, sub: t.nav.promotions.subtitle },
     { id: 'readyProjects', label: t.nav.readyProjects.title, sub: t.nav.readyProjects.subtitle },
+    { id: 'guide', label: t.nav.guide.title, sub: t.nav.guide.subtitle },
     { id: 'contact', label: t.nav.contact.title, sub: t.nav.contact.subtitle },
     { id: 'careers', label: t.nav.careers.title, sub: t.nav.careers.subtitle },
   ];
