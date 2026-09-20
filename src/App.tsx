@@ -3,6 +3,12 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { LeftNavigationPanel, NavSection } from './components/LeftNavigationPanel';
 import { IntroSection } from './components/IntroSection';
+import { ServicesSection } from './components/ServicesSection';
+import { ProjectsSection } from './components/ProjectsSection';
+import { PricingSection } from './components/PricingSection';
+import { PromotionsSection } from './components/PromotionsSection';
+import { ReadyProjectsSection } from './components/ReadyProjectsSection';
+import { CareersSection } from './components/CareersSection';
 import { PhilosophySection } from './components/PhilosophySection';
 import { ArchitectsSection } from './components/ArchitectsSection';
 import { MaterialsSection } from './components/MaterialsSection';
@@ -14,11 +20,12 @@ import { ProjectModal } from './components/ProjectModal';
 import { ContactModal } from './components/ContactModal';
 import { WorksDrawer } from './components/WorksDrawer';
 import { FEATURED_PROJECTS } from './data/projects';
-import { ProjectItem } from './types';
+import { ProjectItem, ProjectType } from './types';
 import { Language } from './data/translations';
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState<NavSection>('works');
+  const [activeSection, setActiveSection] = useState<NavSection>('home');
+  const [projectFilter, setProjectFilter] = useState<'all' | ProjectType>('all');
   const [currentLang, setCurrentLang] = useState<Language>('RU');
   const [menuOpen, setMenuOpen] = useState(false);
   const [worksOpen, setWorksOpen] = useState(false);
@@ -41,6 +48,13 @@ export default function App() {
     setActiveSection('contact');
   };
 
+  const handleSelectSection = (section: NavSection, filter?: 'all' | ProjectType) => {
+    setActiveSection(section);
+    if (filter) {
+      setProjectFilter(filter);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full bg-white text-neutral-900 flex flex-col justify-between selection:bg-neutral-900 selection:text-white">
       {/* 1. Header (GRAND⁺ Text, Kyrgyz International Architectural design Center, Language selector) */}
@@ -60,27 +74,105 @@ export default function App() {
 
       {/* 3. Main Content Container */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-4 sm:pt-6 pb-2 sm:pb-3 w-full flex-1 flex flex-col md:flex-row gap-6 sm:gap-8 lg:gap-12 items-start">
-        {/* Left Navigation Menu (Works, Philosophy, Architects, Materials, Global Projects, Contact) */}
+        {/* Left Navigation Menu (Framed container matching right side) */}
         <LeftNavigationPanel
           activeSection={activeSection}
-          onSelectSection={(section) => setActiveSection(section)}
+          projectFilter={projectFilter}
+          onSelectSection={handleSelectSection}
           currentLang={currentLang}
         />
 
         {/* Right Content Area */}
         <main className="flex-1 min-w-0 w-full">
-          {activeSection === 'works' && (
+          {/* Главная */}
+          {(activeSection === 'home' || activeSection === 'works') && (
             <IntroSection
               onSelectProject={handleOpenDetails}
               onContactClick={() => setActiveSection('contact')}
-              onViewAllWorks={() => setWorksOpen(true)}
+              onViewAllWorks={() => {
+                setActiveSection('projects');
+                setProjectFilter('all');
+              }}
               currentLang={currentLang}
             />
           )}
 
+          {/* Услуги (После главной) */}
+          {activeSection === 'services' && (
+            <ServicesSection
+              onInquire={() => setContactOpen(true)}
+              onNavigateToProjects={() => {
+                setActiveSection('projects');
+                setProjectFilter('all');
+              }}
+              currentLang={currentLang}
+            />
+          )}
+
+          {/* Проекты (Жилые, Коммерческие, Другие) */}
+          {activeSection === 'projects' && (
+            <ProjectsSection
+              activeFilter={projectFilter}
+              onFilterChange={setProjectFilter}
+              onSelectProject={handleOpenDetails}
+              onViewAllWorks={() => setWorksOpen(true)}
+              onContactClick={() => setActiveSection('contact')}
+              currentLang={currentLang}
+            />
+          )}
+
+          {/* Стоимость */}
+          {activeSection === 'pricing' && (
+            <PricingSection
+              onInquire={() => setContactOpen(true)}
+              currentLang={currentLang}
+            />
+          )}
+
+          {/* Акции */}
+          {activeSection === 'promotions' && (
+            <PromotionsSection
+              onInquire={() => setContactOpen(true)}
+              currentLang={currentLang}
+            />
+          )}
+
+          {/* Готовые проекты (После акции) */}
+          {activeSection === 'readyProjects' && (
+            <ReadyProjectsSection
+              onInquire={() => {
+                setContactOpen(true);
+              }}
+              currentLang={currentLang}
+            />
+          )}
+
+          {/* Контакты */}
+          {activeSection === 'contact' && (
+            <ContactSection
+              onNavigateToWorks={() => {
+                setActiveSection('projects');
+                setProjectFilter('all');
+              }}
+              currentLang={currentLang}
+            />
+          )}
+
+          {/* Карьера */}
+          {activeSection === 'careers' && (
+            <CareersSection
+              onInquire={() => setContactOpen(true)}
+              currentLang={currentLang}
+            />
+          )}
+
+          {/* Дополнительные разделы (при переходе из меню/футера) */}
           {activeSection === 'philosophy' && (
             <PhilosophySection
-              onNavigateToWorks={() => setActiveSection('works')}
+              onNavigateToWorks={() => {
+                setActiveSection('projects');
+                setProjectFilter('all');
+              }}
               onNavigateToContact={() => setActiveSection('contact')}
               currentLang={currentLang}
             />
@@ -88,7 +180,10 @@ export default function App() {
 
           {activeSection === 'architects' && (
             <ArchitectsSection
-              onNavigateToWorks={() => setActiveSection('works')}
+              onNavigateToWorks={() => {
+                setActiveSection('projects');
+                setProjectFilter('all');
+              }}
               onNavigateToContact={() => setActiveSection('contact')}
               currentLang={currentLang}
             />
@@ -96,7 +191,10 @@ export default function App() {
 
           {activeSection === 'materials' && (
             <MaterialsSection
-              onNavigateToWorks={() => setActiveSection('works')}
+              onNavigateToWorks={() => {
+                setActiveSection('projects');
+                setProjectFilter('all');
+              }}
               onNavigateToContact={() => setActiveSection('contact')}
               currentLang={currentLang}
             />
@@ -104,15 +202,11 @@ export default function App() {
 
           {activeSection === 'global' && (
             <GlobalSection
-              onNavigateToWorks={() => setActiveSection('works')}
+              onNavigateToWorks={() => {
+                setActiveSection('projects');
+                setProjectFilter('all');
+              }}
               onNavigateToContact={() => setActiveSection('contact')}
-              currentLang={currentLang}
-            />
-          )}
-
-          {activeSection === 'contact' && (
-            <ContactSection
-              onNavigateToWorks={() => setActiveSection('works')}
               currentLang={currentLang}
             />
           )}
@@ -133,11 +227,7 @@ export default function App() {
         onClose={() => setMenuOpen(false)}
         onSelectSection={(section) => {
           setMenuOpen(false);
-          if (['works', 'philosophy', 'architects', 'materials', 'global', 'contact'].includes(section)) {
-            setActiveSection(section as NavSection);
-          } else {
-            setWorksOpen(true);
-          }
+          handleSelectSection(section as NavSection);
         }}
         currentLang={currentLang}
         onChangeLang={setCurrentLang}

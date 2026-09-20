@@ -7,12 +7,25 @@ export interface TranslationDictionary {
     subline2: string;
   };
   nav: {
+    home: { title: string; subtitle: string };
+    services: { title: string; subtitle: string };
+    projects: {
+      title: string;
+      subtitle: string;
+      residential: string;
+      commercial: string;
+      other: string;
+    };
+    pricing: { title: string; subtitle: string };
+    promotions: { title: string; subtitle: string };
+    readyProjects: { title: string; subtitle: string };
+    contact: { title: string; subtitle: string };
+    careers: { title: string; subtitle: string };
     works: { title: string; subtitle: string };
     philosophy: { title: string; subtitle: string };
     architects: { title: string; subtitle: string };
     materials: { title: string; subtitle: string };
     global: { title: string; subtitle: string };
-    contact: { title: string; subtitle: string };
   };
   hero: {
     details: string;
@@ -148,12 +161,25 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
       subline2: 'Архитектурное бюро в Кыргызской Республике   |   г. Бишкек',
     },
     nav: {
+      home: { title: 'Главная', subtitle: 'О бюро и ключевые проекты' },
+      services: { title: 'Услуги', subtitle: 'Архитектурный комплекс работ' },
+      projects: {
+        title: 'Проекты',
+        subtitle: 'Архитектурный каталог',
+        residential: 'Жилые',
+        commercial: 'Коммерческие',
+        other: 'Другие',
+      },
+      pricing: { title: 'Стоимость', subtitle: 'Тарифы на проектирование' },
+      promotions: { title: 'Акции', subtitle: 'Специальные предложения' },
+      readyProjects: { title: 'Готовые проекты', subtitle: 'Авторские типовые решения' },
+      contact: { title: 'Контакты', subtitle: 'г. Бишкек, пр. Шабдан Баатыра, 43а' },
+      careers: { title: 'Карьера', subtitle: 'Вакансии и практика в бюро' },
       works: { title: 'Проекты', subtitle: 'Архитектура и реализованные объекты' },
       philosophy: { title: 'Философия', subtitle: 'Традиционная эстетика в современных формах' },
       architects: { title: 'Архитекторы', subtitle: 'Ведущие кыргызские мастера и бюро' },
       materials: { title: 'Материалы', subtitle: 'Тянь-шаньская ель, Сары-Таш и лиственница' },
       global: { title: 'География', subtitle: 'Проекты и поставки в более чем 60 странах' },
-      contact: { title: 'Контакты', subtitle: 'г. Бишкек, пр. Шабдан Баатыра, 43а' },
     },
     hero: {
       details: 'Подробнее',
@@ -287,12 +313,25 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
       subline2: 'Architectural Bureau in the Kyrgyz Republic   |   Bishkek',
     },
     nav: {
+      home: { title: 'Home', subtitle: 'Studio & Selected Works' },
+      services: { title: 'Services', subtitle: 'Full Architectural Scope' },
+      projects: {
+        title: 'Projects',
+        subtitle: 'Architectural Portfolio',
+        residential: 'Residential',
+        commercial: 'Commercial',
+        other: 'Other',
+      },
+      pricing: { title: 'Pricing', subtitle: 'Architectural Fee Packages' },
+      promotions: { title: 'Offers', subtitle: 'Seasonal Packages' },
+      readyProjects: { title: 'Ready Projects', subtitle: 'Turnkey Pre-Designed Blueprints' },
+      contact: { title: 'Contact', subtitle: 'Bishkek HQ, Shabdan Baatyr 43a' },
+      careers: { title: 'Careers', subtitle: 'Open Roles & Internships' },
       works: { title: 'Works', subtitle: 'Selected Architecture & Projects' },
       philosophy: { title: 'Philosophy', subtitle: 'Traditional Kyrgyz Aesthetics in Modern Form' },
       architects: { title: 'Architects', subtitle: 'Leading Kyrgyz Masters & Design Studios' },
       materials: { title: 'Materials', subtitle: 'Spruce, Sary-Tash & Charred Larch' },
       global: { title: 'Global Projects', subtitle: 'Operations in Over 60 Countries' },
-      contact: { title: 'Contact', subtitle: 'г. Бишкек, пр. Шабдан Баатыра, 43а' },
     },
     hero: {
       details: 'Details',
@@ -426,12 +465,25 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
       subline2: 'Кыргыз Республикасындагы архитектуралык бюросу   |   Бишкек ш.',
     },
     nav: {
+      home: { title: 'Башкы бет', subtitle: 'Бюро жана тандалган иштер' },
+      services: { title: 'Кызматтар', subtitle: 'Архитектуралык иштердин комплекси' },
+      projects: {
+        title: 'Долбоорлор',
+        subtitle: 'Архитектуралык каталог',
+        residential: 'Турак жай',
+        commercial: 'Коммерциялык',
+        other: 'Башкалар',
+      },
+      pricing: { title: 'Баасы', subtitle: 'Долбоорлоо тарифтери' },
+      promotions: { title: 'Акциялар', subtitle: 'Атайын сунуштар' },
+      readyProjects: { title: 'Даяр долбоорлор', subtitle: 'Автордук даяр чечимдер' },
+      contact: { title: 'Байланыш', subtitle: 'Бишкек ш., Шабдан Баатыр пр., 43а' },
+      careers: { title: 'Карьера', subtitle: 'Бош орундар жана практика' },
       works: { title: 'Долбоорлор', subtitle: 'Архитектура жана ишке ашкан иштер' },
       philosophy: { title: 'Философия', subtitle: 'Салттуу эстетика заманбап формада' },
       architects: { title: 'Архитекторлор', subtitle: 'Кыргызстандын алдыңкы чеберлери' },
       materials: { title: 'Материалдар', subtitle: 'Карагай, Сары-Таш жана күйгүзүлгөн кара карагай' },
       global: { title: 'География', subtitle: '60тан ашуун өлкөдө долбоорлор' },
-      contact: { title: 'Байланыш', subtitle: 'Бишкек ш., Шабдан Баатыр пр., 43а' },
     },
     hero: {
       details: 'Толугураак',
@@ -565,12 +617,25 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
       subline2: '吉尔吉斯共和国建筑设计事务所   |   比什凯克',
     },
     nav: {
+      home: { title: '首页', subtitle: '事务所概览与精选' },
+      services: { title: '服务范围', subtitle: '全专业综合建筑设计' },
+      projects: {
+        title: '项目',
+        subtitle: '建筑作品名录',
+        residential: '住宅',
+        commercial: '商业',
+        other: '其他',
+      },
+      pricing: { title: '费用', subtitle: '建筑设计取费标准' },
+      promotions: { title: '特惠', subtitle: '当季专属礼遇' },
+      readyProjects: { title: '成熟方案', subtitle: '高标准可落地精选图纸' },
+      contact: { title: '联系', subtitle: '比什凯克市沙卜丹·巴特尔大街43a' },
+      careers: { title: '招贤', subtitle: '职位招聘与实习通道' },
       works: { title: '作品案例', subtitle: '精选建筑与设计作品' },
       philosophy: { title: '空间哲学', subtitle: '传统游牧美学与现代建筑' },
       architects: { title: '建筑大师', subtitle: '吉尔吉斯斯坦顶尖建筑设计事务所' },
       materials: { title: '建筑材料', subtitle: '天山云杉、萨雷塔什石灰华与碳化落叶松' },
       global: { title: '全球业务', subtitle: '业务覆盖全球60多个国家' },
-      contact: { title: '联系我们', subtitle: '比什凯克市沙卜丹·巴特尔大街43a' },
     },
     hero: {
       details: '查看详情',

@@ -24,12 +24,14 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS.RU;
 
   const NAV_LINKS = [
-    { id: 'works', label: t.nav.works.title, sub: t.nav.works.subtitle },
-    { id: 'philosophy', label: t.nav.philosophy.title, sub: t.nav.philosophy.subtitle },
-    { id: 'architects', label: t.nav.architects.title, sub: t.nav.architects.subtitle },
-    { id: 'materials', label: t.nav.materials.title, sub: t.nav.materials.subtitle },
-    { id: 'global', label: t.nav.global.title, sub: t.nav.global.subtitle },
+    { id: 'home', label: t.nav.home.title, sub: t.nav.home.subtitle },
+    { id: 'services', label: t.nav.services.title, sub: t.nav.services.subtitle },
+    { id: 'projects', label: t.nav.projects.title, sub: t.nav.projects.subtitle },
+    { id: 'pricing', label: t.nav.pricing.title, sub: t.nav.pricing.subtitle },
+    { id: 'promotions', label: t.nav.promotions.title, sub: t.nav.promotions.subtitle },
+    { id: 'readyProjects', label: t.nav.readyProjects.title, sub: t.nav.readyProjects.subtitle },
     { id: 'contact', label: t.nav.contact.title, sub: t.nav.contact.subtitle },
+    { id: 'careers', label: t.nav.careers.title, sub: t.nav.careers.subtitle },
   ];
 
   return (
