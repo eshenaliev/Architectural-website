@@ -1,258 +1,172 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  ArrowRight, 
-  ShieldCheck, 
-  ChevronRight, 
-  ChevronLeft, 
-  Eye, 
-  Compass, 
-  Award,
-  Sparkles
-} from 'lucide-react';
-import { COMPANY_INFO } from '../data/companyData';
-import { PROJECTS_DATA } from '../data/projectsData';
-import { Project } from '../types';
+import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
+import { ProjectItem } from '../types';
+import { FEATURED_PROJECTS } from '../data/projects';
+import { Language, TRANSLATIONS } from '../data/translations';
 
 interface HeroProps {
-  onSelectProject: (project: Project) => void;
-  onOpenConsultation: () => void;
-  onOpenCalculator: () => void;
+  activeProject?: ProjectItem;
+  projects?: ProjectItem[];
+  onOpenDetails: (project: ProjectItem) => void;
+  currentLang?: Language;
 }
 
-export const Hero: React.FC<HeroProps> = ({ 
-  onSelectProject, 
-  onOpenConsultation, 
-  onOpenCalculator 
+export const Hero: React.FC<HeroProps> = ({
+  activeProject,
+  projects = FEATURED_PROJECTS,
+  onOpenDetails,
+  currentLang = 'RU',
 }) => {
-  const heroProjects = PROJECTS_DATA.slice(0, 4);
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [viewMode, setViewMode] = useState<'photo' | 'draft'>('photo');
+  const displayProjects = projects && projects.length > 0 ? projects : [activeProject || FEATURED_PROJECTS[0]];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  // Automatic slide cycle
+  const t = TRANSLATIONS[currentLang] || TRANSLATIONS.RU;
+
+  // Auto-advance banner every 6 seconds if user is not hovering
   useEffect(() => {
+    if (isPaused || displayProjects.length <= 1) return;
     const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % heroProjects.length);
-    }, 9000);
+      setCurrentIndex((prev) => (prev + 1) % displayProjects.length);
+    }, 6000);
     return () => clearInterval(timer);
-  }, [heroProjects.length]);
+  }, [isPaused, displayProjects.length]);
 
-  const currentProject = heroProjects[activeSlide];
+  const currentProject = displayProjects[currentIndex] || activeProject || FEATURED_PROJECTS[0];
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev - 1 + displayProjects.length) % displayProjects.length);
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev + 1) % displayProjects.length);
+  };
+
+  const handleSelectDot = (idx: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex(idx);
+  };
 
   return (
-    <section className="relative min-h-[94vh] flex flex-col justify-between pt-28 sm:pt-32 pb-12 overflow-hidden bg-transparent">
-      
-      {/* Background Architectural Canvas */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {heroProjects.map((project, idx) => (
-          <div
-            key={project.id}
-            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-              idx === activeSlide ? 'opacity-35 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+    <section
+      onClick={() => onOpenDetails(currentProject)}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      title="Нажмите, чтобы открыть подробности проекта"
+      className="group relative w-full h-[220px] sm:h-[260px] lg:h-[300px] bg-neutral-900 overflow-hidden select-none shrink-0 cursor-pointer"
+    >
+      {/* Background Architectural Photos with smooth cross-fade */}
+      {displayProjects.map((proj, idx) => (
+        <div
+          key={proj.id}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
+            idx === currentIndex ? 'opacity-100 z-1' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <img
+            src={proj.image}
+            alt={`${proj.title} — ${proj.category}`}
+            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out"
+          />
+          {/* Subtle dark gradient for high-contrast legibility */}
+          <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+        </div>
+      ))}
+
+      {/* Caption Overlay matching image.png */}
+      <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between">
+        <div className="max-w-xl">
+          {/* Category Tag with subtle counter */}
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[11px] font-mono text-white/75 uppercase tracking-widest">
+              {String(currentIndex + 1).padStart(2, '0')} / {String(displayProjects.length).padStart(2, '0')}
+            </span>
+            <span className="text-white/40 font-mono text-xs">•</span>
+            <span className="font-sans text-[11px] text-white/80 uppercase tracking-widest font-medium">
+              {currentProject.category}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-white font-normal tracking-tight leading-tight drop-shadow-sm">
+            {currentProject.title}
+          </h1>
+
+          {/* Subtitle / Location */}
+          <p className="font-serif text-sm sm:text-base lg:text-lg text-white/90 font-light tracking-normal mt-0.5 drop-shadow-sm">
+            {currentProject.heroSubtitle || currentProject.location}
+          </p>
+
+          {/* Interactive Actions */}
+          <div className="mt-3 sm:mt-3.5 flex items-center gap-3">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenDetails(currentProject);
+              }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 border border-white/90 text-white text-xs font-sans tracking-wide bg-black/25 hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-[2px] cursor-pointer shadow-sm"
+            >
+              <span>{t.hero.details}</span>
+              <span className="text-[11px] leading-none">⌂</span>
+            </button>
+
+            <span className="text-[11px] font-sans text-white/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1">
+              <Maximize2 className="w-3 h-3" />
+              <span>{t.hero.clickToExplore}</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Carousel Navigation & Indicators */}
+        <div className="hidden sm:flex flex-col items-end gap-3 z-20">
+          {/* Arrows */}
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={handlePrev}
+              aria-label="Previous project"
+              className="w-8 h-8 rounded-full border border-white/40 bg-black/30 hover:bg-white hover:text-black text-white flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleNext}
+              aria-label="Next project"
+              className="w-8 h-8 rounded-full border border-white/40 bg-black/30 hover:bg-white hover:text-black text-white flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Slide Indicator Bars */}
+          <div className="flex items-center gap-1.5">
+            {displayProjects.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => handleSelectDot(idx, e)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-1 transition-all duration-300 rounded-full cursor-pointer ${
+                  idx === currentIndex ? 'w-6 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile-only Bottom Slide Dots */}
+      <div className="sm:hidden absolute bottom-3 right-6 z-20 flex items-center gap-1.5">
+        {displayProjects.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={(e) => handleSelectDot(idx, e)}
+            className={`h-1 transition-all duration-300 rounded-full ${
+              idx === currentIndex ? 'w-5 bg-white' : 'w-2 bg-white/40'
             }`}
-            style={{
-              backgroundImage: `url(${viewMode === 'draft' ? project.blueprintImage || project.coverImage : project.coverImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: viewMode === 'draft' 
-                ? 'grayscale(100%) invert(85%) contrast(140%) sepia(20%)' 
-                : 'grayscale(25%) contrast(110%) brightness(85%)',
-              transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 9s ease-out, filter 0.6s ease'
-            }}
           />
         ))}
-
-        {/* Quiet Luxury Gradient Vignettes */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#121315] via-[#121315]/65 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#121315] via-[#121315]/75 to-transparent" />
       </div>
-
-      {/* Main Classical Hero Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full my-auto py-8">
-        <div className="max-w-4xl space-y-7">
-          
-          {/* Top Classical Monogram Badge */}
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 border border-[#c5a880]/40 bg-[#18191c]/80 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#c5a880]"></span>
-              <span className="text-[11px] sm:text-xs uppercase font-serif tracking-[0.25em] text-[#c5a880]">
-                ОсОО «ГРАНД Плюс» • С 2007 ГОДА
-              </span>
-            </div>
-
-            {/* Mode Switcher: Photo vs Architectural Draft */}
-            <div className="hidden sm:inline-flex items-center p-0.5 border border-[#c5a880]/30 bg-[#16171a]/80 text-[11px] font-serif tracking-wider backdrop-blur-md">
-              <button
-                onClick={() => setViewMode('photo')}
-                className={`px-3 py-1 transition-all flex items-center gap-1.5 cursor-pointer ${
-                  viewMode === 'photo' 
-                    ? 'bg-[#c5a880] text-[#121315] font-medium' 
-                    : 'text-[#a89f91] hover:text-[#f4efe6]'
-                }`}
-              >
-                <Eye className="w-3.5 h-3.5" />
-                <span>Фотография</span>
-              </button>
-              <button
-                onClick={() => setViewMode('draft')}
-                className={`px-3 py-1 transition-all flex items-center gap-1.5 cursor-pointer ${
-                  viewMode === 'draft' 
-                    ? 'bg-[#c5a880] text-[#121315] font-medium' 
-                    : 'text-[#a89f91] hover:text-[#f4efe6]'
-                }`}
-              >
-                <Compass className="w-3.5 h-3.5" />
-                <span>Архитектурный чертеж</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Majestic Classical Headline */}
-          <div className="space-y-3">
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#f5f1eb] tracking-tight leading-[1.12]">
-              Вневременная архитектура. <br />
-              <span className="italic font-light text-[#c5a880]">
-                Классические пропорции
-              </span>{' '}
-              и сейсмическая надежность.
-            </h1>
-            
-            <p className="text-[#bfb7aa] text-base sm:text-lg max-w-2xl font-light leading-relaxed pt-2">
-              Проектирование частных загородных резиденций, усадеб и клубных домов по канонам золотого сечения. Натуральный травертин Сары-Таш, гранит, мрамор и расчет конструкций на землетрясение до 9 баллов.
-            </p>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-4 pt-2 font-serif">
-            <button
-              onClick={onOpenConsultation}
-              className="px-6 py-3.5 text-sm tracking-[0.15em] font-medium text-[#121315] bg-[#c5a880] hover:bg-[#d8c09d] transition-all flex items-center gap-2.5 uppercase cursor-pointer group shadow-sm"
-            >
-              <span>Обсудить проект с ГАП</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
-
-            <button
-              onClick={onOpenCalculator}
-              className="px-6 py-3.5 text-sm tracking-[0.15em] text-[#e8e4dc] hover:text-[#c5a880] border border-[#c5a880]/35 hover:border-[#c5a880]/80 bg-[#16171a]/70 transition-all flex items-center gap-2 uppercase cursor-pointer"
-            >
-              <span>Рассчитать смету и сроки</span>
-            </button>
-
-            <a
-              href="#portfolio"
-              className="px-4 py-3.5 text-sm tracking-[0.15em] text-[#a89f91] hover:text-[#c5a880] transition-colors uppercase flex items-center gap-1.5"
-            >
-              <span>Портфолио бюро</span>
-              <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
-
-          {/* 4 Classical Key Metrics */}
-          <div className="pt-6 border-t border-[#c5a880]/20 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl">
-            <div>
-              <div className="font-serif text-2xl sm:text-3xl font-medium text-[#c5a880]">
-                {COMPANY_INFO.yearsInMarket}
-              </div>
-              <div className="text-[11px] font-serif uppercase tracking-widest text-[#a89f91] mt-0.5">
-                Лет практики в КР
-              </div>
-            </div>
-
-            <div>
-              <div className="font-serif text-2xl sm:text-3xl font-medium text-[#f4efe6]">
-                {COMPANY_INFO.completedArea}
-              </div>
-              <div className="text-[11px] font-serif uppercase tracking-widest text-[#a89f91] mt-0.5">
-                Спроектировано
-              </div>
-            </div>
-
-            <div>
-              <div className="font-serif text-2xl sm:text-3xl font-medium text-[#c5a880]">
-                {COMPANY_INFO.approvedProjects}
-              </div>
-              <div className="text-[11px] font-serif uppercase tracking-widest text-[#a89f91] mt-0.5">
-                Реализованных объектов
-              </div>
-            </div>
-
-            <div>
-              <div className="font-serif text-2xl sm:text-3xl font-medium text-[#f4efe6]">
-                9.0 баллов
-              </div>
-              <div className="text-[11px] font-serif uppercase tracking-widest text-[#a89f91] mt-0.5">
-                Сейсмостойкость СНиП
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Featured Classical Project Bar at Bottom */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full pt-4">
-        <div className="border border-[#c5a880]/25 bg-[#16171a]/90 backdrop-blur-md p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 border border-[#c5a880]/40 overflow-hidden relative group">
-              <img 
-                src={currentProject.coverImage} 
-                alt={currentProject.title} 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-serif uppercase tracking-[0.2em] text-[#c5a880]">
-                  {currentProject.categoryLabel} • {currentProject.year}
-                </span>
-                <span className="w-1 h-1 rounded-full bg-[#c5a880]" />
-                <span className="text-[10px] font-serif tracking-wider text-[#9f9687]">
-                  {currentProject.area}
-                </span>
-              </div>
-              <h4 className="font-serif text-base sm:text-lg text-[#f4efe6] font-medium mt-0.5">
-                {currentProject.title}
-              </h4>
-              <p className="text-xs text-[#a89f91] line-clamp-1 max-w-md mt-0.5 font-light">
-                {currentProject.shortDesc}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end font-serif">
-            {/* Carousel navigation buttons */}
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => setActiveSlide((prev) => (prev - 1 + heroProjects.length) % heroProjects.length)}
-                className="p-2 border border-[#c5a880]/30 hover:border-[#c5a880] text-[#cfc8bd] hover:text-[#c5a880] transition-colors"
-                aria-label="Предыдущий проект"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <div className="px-2 text-xs text-[#a89f91]">
-                0{activeSlide + 1} / 0{heroProjects.length}
-              </div>
-              <button
-                onClick={() => setActiveSlide((prev) => (prev + 1) % heroProjects.length)}
-                className="p-2 border border-[#c5a880]/30 hover:border-[#c5a880] text-[#cfc8bd] hover:text-[#c5a880] transition-colors"
-                aria-label="Следующий проект"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <button
-              onClick={() => onSelectProject(currentProject)}
-              className="px-4 py-2 text-xs tracking-wider text-[#121315] bg-[#c5a880] hover:bg-[#d8c09d] transition-all flex items-center gap-1.5 uppercase font-medium"
-            >
-              <span>Детали объекта</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-      </div>
-
     </section>
   );
 };

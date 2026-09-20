@@ -1,6 +1,6 @@
 {
-  "name": "ОсОО ГРАНД Плюс — Архитектурное Бюро Классического Зодчества",
-  "description": "Официальный сайт архитектурного бюро «ГРАНД Плюс» (Бишкек, Кыргызстан). Проектирование классических и неоклассических резиденций, усадеб, вилл и монументальных ансамблей с 2007 года. Золотое сечение, натуральный камень и сейсмостойкость до 9 баллов.",
+  "name": "GRAND + — Kyrgyz International / Architectural design Center",
+  "description": "Kyrgyz International Architectural Design Center (GRAND +) — Kyrgyz Architects for Future Projects across over 60 countries.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

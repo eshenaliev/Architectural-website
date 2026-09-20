@@ -1,116 +1,174 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { ProjectsPortfolio } from './components/ProjectsPortfolio';
-import { ClassicalArchitecturePhilosophy } from './components/ClassicalArchitecturePhilosophy';
-import { ServicesSection } from './components/ServicesSection';
-import { EstimatorCalculator } from './components/EstimatorCalculator';
-import { EngineeringSection } from './components/EngineeringSection';
-import { AboutCompany } from './components/AboutCompany';
-import { WorkflowSection } from './components/WorkflowSection';
+import { LeftNavigationPanel, NavSection } from './components/LeftNavigationPanel';
+import { IntroSection } from './components/IntroSection';
+import { PhilosophySection } from './components/PhilosophySection';
+import { ArchitectsSection } from './components/ArchitectsSection';
+import { MaterialsSection } from './components/MaterialsSection';
+import { GlobalSection } from './components/GlobalSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { MenuOverlay } from './components/MenuOverlay';
 import { ProjectModal } from './components/ProjectModal';
-import { ConsultationModal } from './components/ConsultationModal';
-import { Project } from './types';
+import { ContactModal } from './components/ContactModal';
+import { WorksDrawer } from './components/WorksDrawer';
+import { FEATURED_PROJECTS } from './data/projects';
+import { ProjectItem } from './types';
+import { Language } from './data/translations';
 
 export default function App() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isConsultationOpen, setIsConsultationOpen] = useState(false);
-  const [consultationTopic, setConsultationTopic] = useState<string>('');
-  const [contactInitialNotes, setContactInitialNotes] = useState<string>('');
+  const [activeSection, setActiveSection] = useState<NavSection>('works');
+  const [currentLang, setCurrentLang] = useState<Language>('RU');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [worksOpen, setWorksOpen] = useState(false);
+  const [selectedProjectForModal, setSelectedProjectForModal] = useState<ProjectItem | null>(null);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [inquiryTargetProject, setInquiryTargetProject] = useState<ProjectItem | null>(null);
 
-  const handleOpenConsultation = (topic?: string) => {
-    setConsultationTopic(topic || 'Обсуждение нового проекта');
-    setIsConsultationOpen(true);
+  const heroProject = FEATURED_PROJECTS[0];
+
+  const handleOpenDetails = (project: ProjectItem) => {
+    setSelectedProjectForModal(project);
   };
 
-  const handleOpenCalculator = () => {
-    const calcEl = document.getElementById('calculator');
-    if (calcEl) {
-      calcEl.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleInquireFromProject = (project: ProjectItem) => {
+    setInquiryTargetProject(project);
+    setContactOpen(true);
   };
 
-  const handleSendEstimate = (summary: string) => {
-    setContactInitialNotes(summary);
-    const contactEl = document.getElementById('contacts');
-    if (contactEl) {
-      contactEl.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleOpenGeneralContact = () => {
+    setActiveSection('contact');
   };
 
   return (
-    <div className="min-h-screen bg-[#121315] text-[#d5cfc5] font-sans antialiased selection:bg-[#c5a880]/30 selection:text-[#f3ede4]">
-      {/* Fixed Header */}
+    <div className="min-h-screen w-full bg-white text-neutral-900 flex flex-col justify-between selection:bg-neutral-900 selection:text-white">
+      {/* 1. Header (GRAND⁺ Text, Kyrgyz International Architectural design Center, Language selector) */}
       <Header
-        onOpenConsultation={() => handleOpenConsultation()}
-        onOpenCalculator={handleOpenCalculator}
+        onOpenMenu={() => setMenuOpen(true)}
+        currentLang={currentLang}
+        onChangeLang={setCurrentLang}
       />
 
-      {/* Hero with Project Carousel & Credentials */}
-      <main>
-        <Hero
-          onSelectProject={(proj) => setSelectedProject(proj)}
-          onOpenConsultation={() => handleOpenConsultation()}
-          onOpenCalculator={handleOpenCalculator}
+      {/* 2. Full-Width Architectural Hero Banner across the top (Active & Interactive) */}
+      <Hero
+        projects={FEATURED_PROJECTS}
+        activeProject={heroProject}
+        onOpenDetails={handleOpenDetails}
+        currentLang={currentLang}
+      />
+
+      {/* 3. Main Content Container */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-4 sm:pt-6 pb-2 sm:pb-3 w-full flex-1 flex flex-col md:flex-row gap-6 sm:gap-8 lg:gap-12 items-start">
+        {/* Left Navigation Menu (Works, Philosophy, Architects, Materials, Global Projects, Contact) */}
+        <LeftNavigationPanel
+          activeSection={activeSection}
+          onSelectSection={(section) => setActiveSection(section)}
+          currentLang={currentLang}
         />
 
-        {/* Portfolio Showcase */}
-        <ProjectsPortfolio
-          onSelectProject={(proj) => setSelectedProject(proj)}
-        />
+        {/* Right Content Area */}
+        <main className="flex-1 min-w-0 w-full">
+          {activeSection === 'works' && (
+            <IntroSection
+              onSelectProject={handleOpenDetails}
+              onContactClick={() => setActiveSection('contact')}
+              onViewAllWorks={() => setWorksOpen(true)}
+              currentLang={currentLang}
+            />
+          )}
 
-        {/* Classical Architecture & Vitruvian Philosophy */}
-        <ClassicalArchitecturePhilosophy />
+          {activeSection === 'philosophy' && (
+            <PhilosophySection
+              onNavigateToWorks={() => setActiveSection('works')}
+              onNavigateToContact={() => setActiveSection('contact')}
+              currentLang={currentLang}
+            />
+          )}
 
-        {/* Bureau Services & Deliverables */}
-        <ServicesSection
-          onOpenConsultation={(serviceTitle) => handleOpenConsultation(serviceTitle ? `Услуга: ${serviceTitle}` : undefined)}
-        />
+          {activeSection === 'architects' && (
+            <ArchitectsSection
+              onNavigateToWorks={() => setActiveSection('works')}
+              onNavigateToContact={() => setActiveSection('contact')}
+              currentLang={currentLang}
+            />
+          )}
 
-        {/* Cost & Timeline Estimator */}
-        <EstimatorCalculator
-          onSendEstimate={handleSendEstimate}
-        />
+          {activeSection === 'materials' && (
+            <MaterialsSection
+              onNavigateToWorks={() => setActiveSection('works')}
+              onNavigateToContact={() => setActiveSection('contact')}
+              currentLang={currentLang}
+            />
+          )}
 
-        {/* Seismic Engineering & Calculations (9 баллов) */}
-        <EngineeringSection />
+          {activeSection === 'global' && (
+            <GlobalSection
+              onNavigateToWorks={() => setActiveSection('works')}
+              onNavigateToContact={() => setActiveSection('contact')}
+              currentLang={currentLang}
+            />
+          )}
 
-        {/* Workflow 6-stage roadmap */}
-        <WorkflowSection />
+          {activeSection === 'contact' && (
+            <ContactSection
+              onNavigateToWorks={() => setActiveSection('works')}
+              currentLang={currentLang}
+            />
+          )}
+        </main>
+      </div>
 
-        {/* About Company, Licenses & Team */}
-        <AboutCompany />
+      {/* 4. Minimalist Footer */}
+      <Footer
+        onOpenMenu={() => setMenuOpen(true)}
+        onOpenContact={handleOpenGeneralContact}
+        onOpenMore={() => setWorksOpen(true)}
+        currentLang={currentLang}
+      />
 
-        {/* Contact Form & Bishkek Office Info */}
-        <ContactSection
-          initialNotes={contactInitialNotes}
-        />
-      </main>
+      {/* Slide-out Menu Overlay */}
+      <MenuOverlay
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onSelectSection={(section) => {
+          setMenuOpen(false);
+          if (['works', 'philosophy', 'architects', 'materials', 'global', 'contact'].includes(section)) {
+            setActiveSection(section as NavSection);
+          } else {
+            setWorksOpen(true);
+          }
+        }}
+        currentLang={currentLang}
+        onChangeLang={setCurrentLang}
+        onOpenContact={handleOpenGeneralContact}
+      />
 
-      {/* Footer */}
-      <Footer />
-
-      {/* Project Detail Modal */}
+      {/* Project Details Modal */}
       <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-        onOpenConsultation={(title) => handleOpenConsultation(title ? `Объект: ${title}` : undefined)}
+        project={selectedProjectForModal}
+        onClose={() => setSelectedProjectForModal(null)}
+        onInquire={handleInquireFromProject}
+        currentLang={currentLang}
       />
 
-      {/* Quick Consultation Modal */}
-      <ConsultationModal
-        isOpen={isConsultationOpen}
-        onClose={() => setIsConsultationOpen(false)}
-        prefilledTopic={consultationTopic}
+      {/* Project Works Archive Drawer */}
+      <WorksDrawer
+        isOpen={worksOpen}
+        onClose={() => setWorksOpen(false)}
+        onSelectProject={(proj) => {
+          setSelectedProjectForModal(proj);
+        }}
+        currentLang={currentLang}
+      />
+
+      {/* Inquiries Modal */}
+      <ContactModal
+        isOpen={contactOpen}
+        onClose={() => setContactOpen(false)}
+        selectedProject={inquiryTargetProject}
+        currentLang={currentLang}
       />
     </div>
   );
 }
-
