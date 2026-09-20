@@ -199,11 +199,11 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
     },
     intro: {
       number: '01',
-      category: 'Архитектурное портфолио',
-      title: 'Кыргызские архитекторы для мировых проектов',
-      description: 'ОсОО "ГРАНД Плюс" — Архитектурное бюро в Кыргызской Республике (г. Бишкек): соединение философии кочевого пространства и передовых мировых инженерных стандартов.',
-      exploreArchive: 'Полный архив проектов',
-      scheduleConsultation: 'Консультация с архитектором',
+      category: 'О компании • ОсОО «ГРАНД Плюс»',
+      title: 'ОсОО «ГРАНД Плюс» — Архитектурно-проектное бюро',
+      description: 'ОсОО «ГРАНД Плюс» (г. Бишкек) — лицензированное архитектурно-инженерное бюро полного цикла: от градостроительного аудита участка и получения АПУ/ИТУ до сейсмических расчетов на 9 баллов, согласований в Госэкспертизе, авторского надзора и сдачи в эксплуатацию.',
+      exploreArchive: 'Архитектурное портфолио',
+      scheduleConsultation: 'Консультация с главным архитектором',
     },
     philosophy: {
       number: '02',
@@ -357,11 +357,11 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
     },
     intro: {
       number: '01',
-      category: 'Selected Architecture',
-      title: 'Kyrgyz Architects for Global Projects',
-      description: 'Kyrgyz International Architectural Design Center (GRAND⁺) — Seamlessly blending traditional nomadic spatial aesthetics with cutting-edge modern engineering across Kyrgyzstan and worldwide.',
-      exploreArchive: 'Explore Full Project Archive',
-      scheduleConsultation: 'Schedule Architecture Consultation',
+      category: 'About Us • GRAND Plus LLC',
+      title: 'GRAND Plus LLC — Architectural & Engineering Bureau',
+      description: 'GRAND Plus LLC (Bishkek, Kyrgyz Republic) is a certified full-cycle architectural bureau specializing in seismic-resistant luxury residences, commercial complexes, and mountain eco-resorts certified for up to 9-point seismic loads.',
+      exploreArchive: 'Architectural Portfolio',
+      scheduleConsultation: 'Schedule Chief Architect Consultation',
     },
     philosophy: {
       number: '02',
